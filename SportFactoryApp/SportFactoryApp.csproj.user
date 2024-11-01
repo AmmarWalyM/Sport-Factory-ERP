@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Memberships\AddMembershipWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Members\AddMemberWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Members\MembersView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Members\UpdateMemberWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Profile\MemberProfileView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dashboard\Dashboardview.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Dashboard\InfoCard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Dashboard\TopMemberCard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="LoadingWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Memberships\UpdateMembershipWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Memberships\AddMembershipWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Members\AddMemberWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Memberships\MembershipsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Members\UpdateMemberWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Overview\OverViewView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Members\MembersView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Profile\MemberProfileView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

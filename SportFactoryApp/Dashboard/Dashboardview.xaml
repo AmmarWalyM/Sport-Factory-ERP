@@ -1,0 +1,176 @@
+﻿<UserControl x:Class="SportFactoryApp.Dashboard.Dashboardview"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SportFactoryApp.Dashboard"
+             xmlns:local1="clr-namespace:SportFactoryApp.Converters"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:charting="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:uc="clr-namespace:SportFactoryApp.Dashboard"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+
+        <local1:FirstLetterMultiConverter x:Key="FirstLetterMultiConverter"/>
+ <SolidColorBrush x:Key="BlackColor" Color="#083353"/>
+ <SolidColorBrush x:Key="GreyColor" Color="#B7B7B7"/>
+ <Style x:Key="titleText" TargetType="TextBlock">
+     <Setter Property="Foreground" Value="{StaticResource BlackColor}" />
+     <Setter Property="FontSize" Value="20" />
+     <Setter Property="FontWeight" Value="Bold" />
+ </Style>
+
+ <Style x:Key="whiteBorder" TargetType="Border">
+     <Setter Property="Background" Value="#ffffff" />
+     <Setter Property="CornerRadius" Value="15" />
+     <Setter Property="Padding" Value="20" />
+ </Style>
+
+
+ <Style x:Key="secondaryText" TargetType="TextBlock">
+     <Setter Property="Foreground" Value="{StaticResource GreyColor}" />
+     <Setter Property="FontSize" Value="12" />
+     <Setter Property="Margin" Value="0 5 0 5" />
+ </Style>
+
+    </UserControl.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition  Height="0.8*"/>
+            <RowDefinition  Height="5*"/>
+
+        </Grid.RowDefinitions>
+
+        <!-- RangeSlider for selecting date range -->
+        <Border Grid.Row="0" Background="#ffffff" CornerRadius="10" Margin=" 30,10,30,10" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"  >
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="0" Margin="5">
+                <TextBlock Text="Date Range:"  Margin="0,0,10,0"/>
+                <xctk:RangeSlider 
+                    x:Name="DateRangeSlider"
+                    TickFrequency="1"
+                    IsSnapToTickEnabled="True"
+                    Width="300" 
+                    Minimum="{Binding MinimumDateInOADate}" 
+                    Maximum="{Binding MaximumDateInOADate}"
+                    LowerValue="{Binding LowerBound, Mode=TwoWay}" 
+                    HigherValue="{Binding UpperBound, Mode=TwoWay}" >
+                    <xctk:RangeSlider.Foreground>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black"/>
+                            <GradientStop Color="White" Offset="1"/>
+                        </LinearGradientBrush>
+                    </xctk:RangeSlider.Foreground>
+                </xctk:RangeSlider>
+                <TextBlock Text="{Binding LowerBoundDateTime, StringFormat={}{0:MM/dd/yyyy}}" Margin="10,0,0,0" />
+                <TextBlock Text="{Binding UpperBoundDateTime, StringFormat={}{0:MM/dd/yyyy}}" Margin="10,0,0,0" />
+            </StackPanel>
+        </Border>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal" Margin="10,0,0,0">
+            <Button Content="Last 7 Days"  Height="30" Width="100" Margin="5,0" Click="Last7Days_Click"/>
+            <Button Content="Last 30 Days" Height="30" Width="100" Margin="5,0" Click="Last30Days_Click"/>
+            <Button Content="Until Today"  Height="30" Width="100" Margin="5,0" Click="UntilToday_Click"/>
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="10 0 10 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <uc:InfoCard Grid.Column="0" Title="Total Sales" SubTitle="Compared To ($2464 Last Month)" Amount="{Binding TotalSales}" Image="pack://application:,,,/Images/sale.png" />
+            <uc:InfoCard Grid.Column="1" Title="Distinct Members" SubTitle="Compared To ($1405 Last Month)" Amount="{Binding DistinctMembersCount}"  Image="pack://application:,,,/Images/sale.png" />
+            <uc:InfoCard Grid.Column="2" Title="Distinct Memberships" SubTitle="Compared To ($3100 Last Month)" Amount="{Binding DistinctMembershipsCount}"  Image="pack://application:,,,/Images/sale.png" />
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <!-- Pie Charts -->
+
+            <Border Background="#ffffff" CornerRadius="10" Padding="10" Margin="10"  Grid.Column="0" Grid.Row="0" 
+            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <charting:PieChart x:Name="PieChart2" 
+                   LegendLocation="Right" 
+                   HorizontalAlignment="Stretch" 
+                   VerticalAlignment="Stretch"
+                   InnerRadius="60">
+                    <!-- Adjust this value for the size of the hole -->
+                </charting:PieChart>
+            </Border>
+            <Border Background="White" CornerRadius="10" Margin="10" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <StackPanel x:Name="MyTopMembersContainer" Orientation="Vertical" Margin="10">
+                    <TextBlock Text="Sales List" Style="{StaticResource titleText}"/>
+                    <TextBlock Text="This is the sales data with the most revenue for this month" TextWrapping="Wrap" Margin="0 10 0 10" Style="{StaticResource secondaryText}"/>
+
+                    <!-- Container for dynamically generated TopMemberCard items -->
+                    <StackPanel x:Name="DynamicMemberContainer" Orientation="Vertical" />
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border  Grid.Column="0" Background="#ffffff" CornerRadius="10" Padding="10" Margin="10" 
+            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <lvc:CartesianChart Grid.Row="1" Series="{Binding LineChartSeries}" LegendLocation="Bottom">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Date" Labels="{Binding DateLabels}" />
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Total Sales" LabelFormatter="{Binding Formatter}" />
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+
+                </Border>
+                <!-- Histogram Chart -->
+                <Border Grid.Column="1" Background="#ffffff" CornerRadius="10" Padding="10" Margin="10">
+                    <lvc:CartesianChart Name="HistogramChart" Series="{Binding HistogramSeries}">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis  Labels="{Binding DaysOfWeekLabels}">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator Step="1" />
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Total Sales" LabelFormatter="{Binding YFormatter}" />
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+                </Border>
+            </Grid>
+            <Border  Grid.Row="1" Background="#ffffff" CornerRadius="10" Padding="10" Margin="10" 
+HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
+
+                <DataGrid Grid.Row="2" 
+          ItemsSource="{Binding FilteredMembers}" 
+          AutoGenerateColumns="False" 
+                CanUserAddRows="False" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FFD7D7D7" EnableRowVirtualization="False" IsReadOnly="True" ColumnWidth="*" BorderBrush="{x:Null}"  >
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn  Header="Member Name" Binding="{Binding Member.FullName}" />
+                        <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
+                        <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=C}" />
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=MM/dd/yyyy}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Border>
+        </Grid>
+
+    </Grid>
+</UserControl>
