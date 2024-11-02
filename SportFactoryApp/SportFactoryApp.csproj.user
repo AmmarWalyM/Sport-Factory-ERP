@@ -56,9 +56,6 @@
     <Page Update="Members\UpdateMemberWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Overview\OverViewView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Members\MembersView.xaml">
       <SubType>Designer</SubType>
     </Page>

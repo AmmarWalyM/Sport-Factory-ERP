@@ -560,7 +560,6 @@ C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Memberships\UpdateMembershipWindow.baml
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Members\AddMemberWindow.baml
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Members\UpdateMemberWindow.baml
-C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Overview\OverViewView.baml
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Dashboard\Dashboardview.g.cs
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Dashboard\InfoCard.g.cs
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Dashboard\TopMemberCard.g.cs
@@ -573,7 +572,6 @@ C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Members\AddMemberWindow.g.cs
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Members\MembersView.g.cs
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Members\UpdateMemberWindow.g.cs
-C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Overview\OverViewView.g.cs
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\Profile\MemberProfileView.g.cs
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\App.g.cs
 C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs

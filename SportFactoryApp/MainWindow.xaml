@@ -315,7 +315,13 @@
                                     <TextBox x:Name="ChatInputTextBox" Width="200" Height="40" VerticalAlignment="Center" Padding="10" Background="Transparent" BorderBrush="Transparent"/>
                                 </Border>
                                 <Border CornerRadius="40" Background="Black" Margin="0,0,0,0" BorderThickness="0" BorderBrush="Transparent">
-                                    <Button Content="Send" Click="SendMessageButton_Click" Width="40" Height="40" VerticalAlignment="Center" Background="Transparent" Foreground="White" BorderThickness="0"/>
+                                    
+                                        <Button  Click="SendMessageButton_Click" Width="40" Height="40" VerticalAlignment="Center" BorderThickness="0" Background="Transparent">
+                                        <StackPanel Background="Transparent">
+                                            <Image Source="pack://application:,,,/Images/icons8-send-30.png" Margin="5"/>
+                                        </StackPanel>
+                                    </Button>
+                                   
                                 </Border>
                             </StackPanel>
                         </Grid>

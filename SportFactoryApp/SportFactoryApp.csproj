@@ -24,6 +24,7 @@
     <None Remove="Images\icons8-add-48.png" />
     <None Remove="Images\icons8-bill-30.png" />
     <None Remove="Images\icons8-carte-de-membre-30.png" />
+    <None Remove="Images\icons8-carte-de-membre-94.png" />
     <None Remove="Images\icons8-check-mark-94.png" />
     <None Remove="Images\icons8-chercher-30.png" />
     <None Remove="Images\icons8-client-30.png" />
@@ -36,8 +37,11 @@
     <None Remove="Images\icons8-male-user-94.png" />
     <None Remove="Images\icons8-movie-ticket-30.png" />
     <None Remove="Images\icons8-notifications-30.png" />
+    <None Remove="Images\icons8-one-94.png" />
     <None Remove="Images\icons8-phone-30.png" />
+    <None Remove="Images\icons8-pièces-de-monnaie-94.png" />
     <None Remove="Images\icons8-redémarrer-30.png" />
+    <None Remove="Images\icons8-sablier-50.png" />
     <None Remove="Images\icons8-send-30.png" />
     <None Remove="Images\icons8-supprimer-pour-toujours-30.png" />
     <None Remove="Images\icons8-utilisateur-30.png" />
@@ -123,6 +127,9 @@
     <Resource Include="Images\icons8-carte-de-membre-30.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\icons8-carte-de-membre-94.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\icons8-check-mark-94.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -159,10 +166,19 @@
     <Resource Include="Images\icons8-notifications-30.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\icons8-one-94.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\icons8-phone-30.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\icons8-pièces-de-monnaie-94.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\icons8-redémarrer-30.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-sablier-50.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-send-30.png">
@@ -229,9 +245,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Memberships\MembershipsView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Overview\OverViewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

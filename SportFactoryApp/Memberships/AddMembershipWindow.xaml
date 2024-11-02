@@ -31,8 +31,8 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="pack://application:,,,/Images/icons8-utilisateur-30.png" Height="30" Margin="0,0,10,0" VerticalAlignment="Top"/>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock FontWeight="Bold" FontSize="20">Nouveau Membre</TextBlock>
-                        <TextBlock FontWeight="Normal" Foreground="Gray" FontSize="10">Bienvenue à notre nouveau membre de la famille Sport Factory</TextBlock>
+                        <TextBlock FontWeight="Bold" FontSize="20">Nouvelle Abonnement</TextBlock>
+                        <TextBlock FontWeight="Normal" Foreground="Gray" FontSize="10">Rebienvenue à notre fidele membre de la famille Sport Factory</TextBlock>
                     </StackPanel>
                 </StackPanel>
 
@@ -60,7 +60,7 @@
                     <ComboBox 
 x:Name="MembershipType" 
 Style="{StaticResource MaterialDesignComboBox}" 
-materialDesign:HintAssist.Hint="Gendre"
+materialDesign:HintAssist.Hint="Type d'abonnement"
             
 materialDesign:HintAssist.IsFloating="True"
 Width="400"
@@ -86,7 +86,7 @@ VerticalContentAlignment="Top"
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Name="AddMemberButton" Content="Ajouter l'abonnement" Click="AddButton_Click"
                         Width="260" Margin="0,20,20,0" HorizontalAlignment="Center" Background="#aefe14" FontWeight="Bold" Height="40"/>
-                    <Button Content="Cancel" Click="CancelButton_Click" Height="40" Width="140" Margin="0,20,0,0" HorizontalAlignment="Center" Background="WhiteSmoke" FontWeight="Bold" />
+                    <Button Content="Annuler" Click="CancelButton_Click" Height="40" Width="140" Margin="0,20,0,0" HorizontalAlignment="Center" Background="WhiteSmoke" FontWeight="Bold" />
                 </StackPanel>
             </StackPanel>
         </Border>

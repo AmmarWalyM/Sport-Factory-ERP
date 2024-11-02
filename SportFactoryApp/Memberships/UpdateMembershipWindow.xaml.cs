@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SportFactoryApp.Memberships
 {
@@ -30,7 +31,8 @@ namespace SportFactoryApp.Memberships
         private void LoadMembershipDetails()
         {
             MemberComboBox.SelectedItem = _context.Members.Find(_membership.MemberId);
-            TypeTextBox.Text = _membership.Type;
+            
+            MembershipType.SelectedItem = _membership.Type;
             PriceTextBox.Text = _membership.Price.ToString();
         }
 
@@ -42,7 +44,8 @@ namespace SportFactoryApp.Memberships
             {
                 // Update the membership details
                 _membership.MemberId = selectedMember.MemberId;
-                _membership.Type = TypeTextBox.Text;
+                //_membership.Type = TypeTextBox.Text;
+                _membership.Type = MembershipType.SelectedItem != null ? (MembershipType.SelectedItem as ComboBoxItem).Content.ToString() : null;
                 _membership.Price = price;
 
                 _context.SaveChanges();

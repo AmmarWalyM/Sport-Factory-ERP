@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using SportFactoryApp.Profile;
 using static SportFactoryApp.MainWindow;
+using System.Collections.Generic;
 
 namespace SportFactoryApp.Memberships
 {
@@ -25,38 +26,70 @@ namespace SportFactoryApp.Memberships
             _mainWindow = mainWindow;
         }
 
-        private void LoadMemberships()
+        private void LoadMemberships(string filterType = "All")
         {
-            var memberships = _context.Membershipss.Include(m => m.Member).ToList();
-            MembershipDataGrid.ItemsSource = memberships; // Update this line
+            List<Membership> memberships;
+
+            if (filterType == "Active")
+            {
+                memberships = _context.Membershipss
+                                     .Include(m => m.Member)
+                                     .Where(m => m.Status == "Active") // Assuming you have an IsActive property
+                                     .ToList();
+            }
+            else
+            {
+                memberships = _context.Membershipss.Include(m => m.Member).ToList();
+            }
+
+            MembershipDataGrid.ItemsSource = memberships;
+
+            int newMembershipCount = CountNewMembershipsThisMonth(memberships);
+            CountNewMembershipsThisMonthText.Text = newMembershipCount.ToString();
+
+            decimal monthlyRevenue = CalculateMonthlyRevenue(memberships);
+            CalculateMonthlyRevenueText.Text = monthlyRevenue.ToString() + "DT";
+
+            var sessions = _context.Sessions.Include(s => s.Membership).ToList();
+            int twelveSessionUsage = Calculate12SessionUsage(sessions, memberships);
+            Calculate12SessionUsageText.Text = twelveSessionUsage.ToString();
         }
 
+        /*private void LoadMemberships()
+        {
+            var memberships = _context.Membershipss.Include(m => m.Member).ToList();
+            var sessions = _context.Sessions.Include(s => s.Membership).ToList();
+
+            MembershipDataGrid.ItemsSource = memberships; // Update this line
+
+            int newMembershipCount = CountNewMembershipsThisMonth(memberships);
+            CountNewMembershipsThisMonthText.Text = newMembershipCount.ToString();
+
+            decimal monthlyRevenue = CalculateMonthlyRevenue(memberships);
+            CalculateMonthlyRevenueText.Text = monthlyRevenue.ToString()+"DT"; ; 
+
+            int twelveSessionUsage = Calculate12SessionUsage(sessions, memberships);
+            Calculate12SessionUsageText.Text = twelveSessionUsage.ToString(); // Display the count
+        }*/
+
         // Load Members from the database and display them in the ListBox
-        
+
         private void LoadMembers()
         {
             var members = _context.Members.ToList();
             MembershipDataGrid.ItemsSource = members;
 
-            // Calculate total members
-            int totalMembers = members.Count;
-
-            // Calculate active members with 12-Session Pack
-            int activeMembersWith12Pack = _context.Membershipss
-                .Count(m => m.Status == "Active" && m.Type == "Pack 12 Seances");
-
-            // Calculate loyalty percentage
-            double loyaltyPercentage = totalMembers > 0
-                ? (double)activeMembersWith12Pack / totalMembers * 100
-                : 0;
-
+            
             // Update TextBlocks with calculated values
             //TotalMembersText.Text = totalMembers.ToString();
             //ActiveMembersText.Text = activeMembersWith12Pack.ToString();
             //LoyaltyPercentageText.Text = $"{loyaltyPercentage:F2}%";
-            TotalMembersText.Text = "test";
-            ActiveMembersText.Text = "test";
-            LoyaltyPercentageText.Text = "test";
+            // Fetch sessions data and calculate sessions this month
+            var sessions = _context.Sessions.ToList();
+            int sessionsThisMonth = CountSessionsThisMonth(sessions);
+
+            
+            CountSessionsThisMonthText.Text = sessionsThisMonth.ToString();
 
 
 
@@ -321,6 +354,64 @@ namespace SportFactoryApp.Memberships
                 return null;
             }
         }
+
+        public int Calculate12SessionUsage(List<Session> sessions, List<Membership> memberships)
+        {
+            // Get the first date of the current month
+            DateTime startOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+            return memberships.Count(m => m.Type == "Seance Unique" && m.Date >= startOfMonth);
+        }
+
+        public decimal CalculateMonthlyRevenue(List<Membership> memberships)
+        {
+            DateTime startOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            return memberships.Where(m => m.Date >= startOfMonth)
+                              .Sum(m => m.Price);
+        }
+        public int CountNewMembershipsThisMonth(List<Membership> memberships)
+        {
+            DateTime startOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            return memberships.Count(m => m.Type == "Pack 12 Seances" && m.Date >= startOfMonth);
+        }
+        public int CountSessionsThisMonth(List<Session> sessions)
+        {
+            DateTime startOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            return sessions.Count(s => s.SessionDate >= startOfMonth);
+
+            
+        }
+
+        private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            
+            if (sender == ToggleAllButton)
+            {
+                ToggleActiveButton.IsChecked = false;
+                LoadMemberships("All");
+            }
+            else if (sender == ToggleActiveButton)
+            {
+                ToggleAllButton.IsChecked = false;
+                LoadMemberships("Active");
+            }
+            
+        }
+        private void ToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (sender == ToggleActiveButton)
+            {
+                ToggleAllButton.IsChecked = true;
+                LoadMemberships("All"); // Load all memberships when "Active" is unchecked
+            }
+            else if (sender == ToggleAllButton)
+            {
+                ToggleActiveButton.IsChecked = true;
+                LoadMemberships("Active"); // Load all memberships when "All" is unchecked
+            }
+        }
+
+
 
 
     }

@@ -3,11 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SportFactoryApp.Members"
              xmlns:local1="clr-namespace:SportFactoryApp.Converters"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
     <UserControl.Resources>
 
         <local1:FirstLetterMultiConverter x:Key="FirstLetterMultiConverter"/>
-
+        <!-- Custom Style for Segmented Toggle Button -->
+        <Style x:Key="CustomToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}"
+                                
+                                CornerRadius="20"
+                                Padding="10"
+                                >
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" Value="#AEFE14"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <!-- Custom active color -->
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <!-- Custom inactive color -->
+                                <Setter Property="Foreground" Value="#AEFE14"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </UserControl.Resources>
     <StackPanel Margin="20">
@@ -28,29 +58,27 @@
 
                     <!-- TextBlock on the left -->
                     <TextBlock Text="Liste des abonnements" FontSize="20" FontWeight="Bold" Margin="0,0,0,0" Grid.Column="0" Foreground="White"/>
-
+                  
                     <!-- Button on the right -->
-                    <Border CornerRadius="15" Background="#5C7CFA" 
-BorderBrush="#4CAF50" Width="170" HorizontalAlignment="Right">
+                    <Border CornerRadius="15" Background="#AEFE14" 
+ Width="170" HorizontalAlignment="Right">
                         <Button HorizontalAlignment="Right" 
         Grid.Column="1" 
         Width="170" 
         Margin="10,0,0,0" 
         Background="Transparent" 
-        BorderBrush="#4CAF50" 
-        BorderThickness="1" 
+       
         
         
         Click="AddMembership_Click">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="{TemplateBinding Background}" 
-                    BorderBrush="{TemplateBinding BorderBrush}" 
-                    BorderThickness="{TemplateBinding BorderThickness}" 
+                     
                     CornerRadius="15">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                                             <Image Source="pack://application:,,,/Images/icons8-add-48.png" Width="24" Height="24" Margin="5"/>
-                                            <TextBlock Text="Nouveau Abonnement" FontSize="12" Foreground="White" VerticalAlignment="Center" FontFamily="Segoe UI" FontWeight="Bold"  />
+                                            <TextBlock Text="Nouvelle Abonnement" FontSize="12" Foreground="Black" VerticalAlignment="Center" FontFamily="Segoe UI" FontWeight="Bold"  />
                                         </StackPanel>
                                     </Border>
                                 </ControlTemplate>
@@ -73,48 +101,76 @@ BorderBrush="#4CAF50" Width="170" HorizontalAlignment="Right">
                     <Border Grid.Column="0" Background="White" CornerRadius="10" Margin="5" Padding="20" BorderBrush="Gray" BorderThickness="1" Opacity="0.8">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="pack://application:,,,/Images/icons8-male-user-94.png" Width="40"/>
-                                <TextBlock Text="Totale des members" FontSize="16" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                                <Image Source="pack://application:,,,/Images/icons8-pièces-de-monnaie-94.png" Width="40"/>
+                                <TextBlock Text="Recette" FontSize="16" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
                             </StackPanel>
-                            <TextBlock x:Name="TotalMembersText" FontSize="40" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="CalculateMonthlyRevenueText" FontSize="40" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"/>
+                            <TextBlock Text="ce mois" FontSize="20" FontWeight="Bold" Foreground="Black" VerticalAlignment="Bottom"/>
                         </StackPanel>
+            </StackPanel>
                     </Border>
 
                     <!-- Card 2: Active Members with 12-Session Pack -->
                     <Border Grid.Column="1" Background="White" CornerRadius="10" Margin="5" Padding="20" BorderBrush="Gray" BorderThickness="1" Opacity="0.8">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="pack://application:,,,/Images/icons8-check-mark-94.png" Width="40"/>
-                                <TextBlock Text="Members actifs" FontSize="16" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="10"/>
+                                <Image Source="pack://application:,,,/Images/icons8-one-94.png" Width="40"/>
+                                <TextBlock Text="Abonnement seance unique" FontSize="16" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="10"/>
                             </StackPanel>
-                            <TextBlock x:Name="ActiveMembersText" FontSize="40" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="Calculate12SessionUsageText" FontSize="40" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"/>
+                            <TextBlock Text="ce mois" FontSize="20" FontWeight="Bold" Foreground="Black" VerticalAlignment="Bottom"/>
                         </StackPanel>
+            </StackPanel>
                     </Border>
 
                     <!-- Card 3: Loyalty Percentage -->
                     <Border Grid.Column="2" Background="White" CornerRadius="10" Margin="5" Padding="20" BorderBrush="Gray" BorderThickness="1" Opacity="0.8">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="pack://application:,,,/Images/icons8-love-circled-94.png" Width="40"/>
+                                <Image Source="pack://application:,,,/Images/icons8-carte-de-membre-94.png" Width="40"/>
 
-                                <TextBlock Text="Taux de fidélité" FontSize="16" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="10"/>
+                                <TextBlock Text="Abonnement P12S" FontSize="16" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="10"/>
                             </StackPanel>
-                            <TextBlock x:Name="LoyaltyPercentageText" FontSize="40" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="CountNewMembershipsThisMonthText" FontSize="40" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"/>
+                            <TextBlock Text="ce mois" FontSize="20" FontWeight="Bold" Foreground="Black" VerticalAlignment="Bottom"/>
                         </StackPanel>
+            </StackPanel>
                     </Border>
                     <Border Grid.Column="3" Background="White" CornerRadius="10" Margin="5" Padding="20" Opacity="0.8">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="pack://application:,,,/Images/icons8-crowd-94.png" Width="40"/>
-                                <TextBlock Text="Taux d'attendance" FontSize="14" FontWeight="Bold" Foreground="Black"  VerticalAlignment="Center" Margin="10"/>
+                                <Image Source="pack://application:,,,/Images/icons8-sablier-50.png" Width="40"/>
+                                <TextBlock Text="Nbr de seances P12S" FontSize="14" FontWeight="Bold" Foreground="Black"  VerticalAlignment="Center" Margin="10"/>
                             </StackPanel>
-                            <TextBlock x:Name="AttendanceRateText" FontSize="40" FontWeight="Bold" Foreground="Black"/>
-
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="CountSessionsThisMonthText" FontSize="40" FontWeight="Bold" Foreground="Black"/>
+                                <TextBlock Text="ce mois" FontSize="20" FontWeight="Bold" Foreground="Black" VerticalAlignment="Bottom"/>
+                            </StackPanel>
                         </StackPanel>
                     </Border>
                 </Grid>
             </StackPanel>
+            
         </Border>
+        <Border CornerRadius="20"  Padding="0" Margin="10" HorizontalAlignment="Right" Background="Black">
+            <StackPanel Orientation="Horizontal">
+                <ToggleButton x:Name="ToggleActiveButton" Content="Active" 
+                      Style="{StaticResource CustomToggleButtonStyle}"
+                      Width="100" Height="40" Margin="0,0"
+                      Checked="ToggleButton_Checked"
+                      Unchecked="ToggleButton_Unchecked"/>
+                <ToggleButton x:Name="ToggleAllButton" Content="Tous" 
+                      Style="{StaticResource CustomToggleButtonStyle}"
+                      Width="100" Height="40" Margin="0,0"
+                      Checked="ToggleButton_Checked"
+                      Unchecked="ToggleButton_Unchecked"    />
+            </StackPanel>
+        </Border>
+
+
         <DataGrid x:Name="MembershipDataGrid"
                   HorizontalAlignment="Stretch"
                    ColumnWidth="*"
