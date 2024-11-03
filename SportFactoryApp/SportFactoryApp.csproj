@@ -17,12 +17,15 @@
     <None Remove="Images\femaleicon.jpg" />
     <None Remove="Images\femaleProfile.png" />
     <None Remove="Images\GSLogo.png" />
+    <None Remove="Images\GymGirl.jpg" />
+    <None Remove="Images\GymGuy.jpg" />
     <None Remove="Images\Home.png" />
     <None Remove="Images\Hourglass.gif" />
     <None Remove="Images\icons8-account-30.png" />
     <None Remove="Images\icons8-accueil-30.png" />
     <None Remove="Images\icons8-add-48.png" />
     <None Remove="Images\icons8-bill-30.png" />
+    <None Remove="Images\icons8-cadeau-94.png" />
     <None Remove="Images\icons8-carte-de-membre-30.png" />
     <None Remove="Images\icons8-carte-de-membre-94.png" />
     <None Remove="Images\icons8-check-mark-94.png" />
@@ -44,6 +47,8 @@
     <None Remove="Images\icons8-sablier-50.png" />
     <None Remove="Images\icons8-send-30.png" />
     <None Remove="Images\icons8-supprimer-pour-toujours-30.png" />
+    <None Remove="Images\icons8-symbole-de-mars-94.png" />
+    <None Remove="Images\icons8-symbole-de-vénus-94.png" />
     <None Remove="Images\icons8-utilisateur-30.png" />
     <None Remove="Images\icons8-ventes-totales-30.png" />
     <None Remove="Images\InfinityLoader.gif" />
@@ -56,6 +61,9 @@
     <None Remove="Images\members_cards_bg.png" />
     <None Remove="Images\MWBG.png" />
     <None Remove="Images\MWBG1.png" />
+    <None Remove="Images\ProfileBG.png" />
+    <None Remove="Images\ProfileBG1.png" />
+    <None Remove="Images\ProfileBG2.png" />
     <None Remove="Images\sale.png" />
     <None Remove="Images\SFBG.png" />
     <None Remove="Images\SFCover.png" />
@@ -104,6 +112,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\GSLogo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\GymGirl.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\GymGuy.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Home.png">
@@ -187,6 +201,12 @@
     <Resource Include="Images\icons8-supprimer-pour-toujours-30.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\icons8-symbole-de-mars-94.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-symbole-de-vénus-94.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\icons8-utilisateur-30.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -194,6 +214,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\InfinityLoader.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-cadeau-94.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Content Include="Images\introAWM.mp4">
@@ -221,6 +244,15 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\MWBG1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ProfileBG.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ProfileBG1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ProfileBG2.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\sale.png">

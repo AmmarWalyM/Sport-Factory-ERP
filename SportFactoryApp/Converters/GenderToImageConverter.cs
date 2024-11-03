@@ -14,9 +14,9 @@ namespace SportFactoryApp.Converters
                 switch (gender.ToLower())
                 {
                     case "homme":
-                        return new BitmapImage(new Uri("pack://application:,,,/Images/maleProfile.jpg"));
+                        return new BitmapImage(new Uri("pack://application:,,,/Images/GymGuy.jpg"));
                     case "femme":
-                        return new BitmapImage(new Uri("pack://application:,,,/Images/femaleProfile.png"));
+                        return new BitmapImage(new Uri("pack://application:,,,/Images/GymGirl.jpg"));
                     default:
                         return null; // You can return a default image if needed
                 }

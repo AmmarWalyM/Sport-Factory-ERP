@@ -4,87 +4,213 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:SportFactoryApp.Converters"
-             mc:Ignorable="d">
-    <UserControl.Resources>
-        <local:GenderToImageConverter x:Key="GenderToImageConverter"/>
-    </UserControl.Resources>
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
 
-    <Grid Margin="30">
+             mc:Ignorable="d"
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Add Material Design themes for this UserControl only -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                
+
+
+            </ResourceDictionary.MergedDictionaries>
+            <local:GenderToImageConverter x:Key="GenderToImageConverter"/>
+            <local:SpecialDateConverter x:Key="SpecialDateConverter"/>
+
+            <!-- Style for highlighting special dates on the Calendar -->
+            
+
+            <!-- Define SpecialDateConverter in your ViewModel to return true for special dates -->
+            
+        </ResourceDictionary>
+      
+    </UserControl.Resources>
+    <UserControl.Background>
+        <ImageBrush ImageSource="pack://application:,,,/Images/ProfileBG2.png" 
+                 Stretch="UniformToFill" 
+                 Opacity="1"/>
+    </UserControl.Background>
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="170"/>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Profile Information Container -->
-        <Border Grid.Column="0" Grid.RowSpan="2" MaxHeight="350" CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Padding="10" Background="White" Margin="10" VerticalAlignment="Top">
-            <StackPanel>
-                <TextBlock Text="Member Profile" FontSize="20" FontWeight="Bold" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+        <Border Grid.Column="0" Grid.Row="0" MaxHeight="350" CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Padding="10" Background="Transparent" Margin="10,20,0,0" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal">
 
                 <!-- Profile Picture -->
                 <Border Width="150" Height="150" Margin="0,0,0,10" ClipToBounds="True" HorizontalAlignment="Center">
-                    <Ellipse Stroke="Gray" StrokeThickness="1">
+                    <Ellipse Stroke="#AEFE14" StrokeThickness="2">
                         <Ellipse.Fill>
                             <ImageBrush ImageSource="{Binding Gender, Converter={StaticResource GenderToImageConverter}}" Stretch="UniformToFill"/>
                         </Ellipse.Fill>
                     </Ellipse>
                 </Border>
+                <StackPanel Orientation="Vertical" Margin="10,30,0,0">
+                   
+                <TextBlock Text="{Binding FullName}" FontWeight="Bold" FontSize="40" Margin="0,0,0,20" Foreground="White"/>
 
-                <TextBlock Text="First Name:" />
-                <TextBlock Text="{Binding FirstName}" FontWeight="Bold"/>
 
-                <TextBlock Text="Last Name:" />
-                <TextBlock Text="{Binding LastName}" FontWeight="Bold"/>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Gender Stack Panel -->
+                        <Border CornerRadius="15" Background="#EEEEEE" Padding="10">
+                            <StackPanel Orientation="Horizontal">
+                            <Image Width="20" Height="20">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="pack://application:,,,/Images/icons8-symbole-de-mars-94.png"/>
+                                        <!-- Default to male.png or specify any placeholder image -->
 
-                <TextBlock Text="Gender:" />
-                <TextBlock Text="{Binding Gender}" FontWeight="Bold"/>
+                                        <Style.Triggers>
+                                            <!-- Trigger for Male -->
+                                            <DataTrigger Binding="{Binding Gender}" Value="Homme">
+                                                <Setter Property="Source" Value="pack://application:,,,/Images/icons8-symbole-de-mars-94.png" />
+                                            </DataTrigger>
 
-                <TextBlock Text="Birth Date:" />
-                <TextBlock Text="{Binding BirthDate, StringFormat='{}{0:MMMM dd, yyyy}'}" FontWeight="Bold"/>
+                                            <!-- Trigger for Female -->
+                                            <DataTrigger Binding="{Binding Gender}" Value="Femme">
+                                                <Setter Property="Source" Value="pack://application:,,,/Images/icons8-symbole-de-vénus-94.png"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+
+                            <!-- Gender TextBlock -->
+                            <TextBlock Text="{Binding Gender}" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        </Border>
+                        <TextBlock Width="20"></TextBlock>
+                        <Border CornerRadius="15" Background="#EEEEEE" Padding="10">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="pack://application:,,,/Images/icons8-cadeau-94.png" Width="20"></Image>
+                                <TextBlock Text="{Binding BirthDate, StringFormat='{}{0:dd MMMM yyyy}'}" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Language="fr-FR"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
+            
         </Border>
-        <Border Grid.Column="1" Grid.Row="0">
+        <Border Grid.Column="1" Grid.Row="0" Padding="10">
             <!-- Card Section -->
-            <StackPanel Orientation="Horizontal"  Margin="10" Height="150" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal"  Margin="10" Height="120" VerticalAlignment="Top" HorizontalAlignment="Right">
                 <!-- Card 1: Membership Count -->
-                <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Background="White" Padding="20" Margin="5" Width="Auto">
+                <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Background="Black" Padding="20" Margin="5" Width="Auto" Opacity="0.8">
                     <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Nombre d'abon" FontWeight="Bold" FontSize="14"/>
-                        <TextBlock x:Name="MembershipCountTextBlock" FontSize="22" FontWeight="Bold"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Images/icons8-pièces-de-monnaie-94.png" Width="30"/>
+                            <TextBlock Text="Nbr d'abonnement" FontSize="12" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                        </StackPanel>
+                        <TextBlock x:Name="MembershipCountTextBlock" FontSize="22" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
 
                 <!-- Card 2: Revenue Generated -->
-                <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Background="White" Padding="20" Margin="5" Width="Auto">
+                <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Background="Black" Padding="20" Margin="5" Width="Auto" Opacity="0.8">
                     <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Total Revenue" FontWeight="Bold" FontSize="14"/>
-                        <TextBlock x:Name="TotalRevenueTextBlock" FontSize="22" FontWeight="Bold"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Images/icons8-pièces-de-monnaie-94.png" Width="30"/>
+                            <TextBlock Text="Revenue Generé" FontSize="12" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                        </StackPanel>
+                        <TextBlock x:Name="TotalRevenueTextBlock" FontSize="30" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
 
                 <!-- Card 3: Session Count -->
-                <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Background="white" Padding="20" Margin="5" Width="Auto" >
+                <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Background="Black" Padding="20" Margin="5" Width="Auto" Opacity="0.8">
                     <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Total Sessions" FontWeight="Bold" FontSize="14"/>
-                        <TextBlock Text="N/A" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" Margin="10"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Images/icons8-pièces-de-monnaie-94.png" Width="30"/>
+                            <TextBlock Text="Nbr des seances" FontSize="12" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                        </StackPanel>
+                        <TextBlock  x:Name="NbSeancesTextBlock" FontSize="22" FontWeight="Bold" Margin="10" Foreground="#aefe14" HorizontalAlignment="Center"/>
                         <!-- Placeholder for session data -->
                     </StackPanel>
                 </Border>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+                
+                    <Button Content="Add Session" Click="AddSessionButton_Click" Margin="5" Background="#aefe14" Foreground="Black" />
+                    <Button Name="DeleteSessionButton" Content="Delete Session" Click="DeleteSessionButton_Click" Margin="5" IsEnabled="{Binding SessionSelected}"  Background="Black" Foreground="#aefe14" />
+                </StackPanel>
+                
+            </StackPanel>
+            
         </Border>
+
+        <Calendar Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
+          DisplayDate="{Binding CurrentDate}"
+          SelectionMode="SingleDate"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Top"
+          Margin="10"
+          Loaded="Calendar_Loaded"
+          Language="fr-FR">
+            <Calendar.Resources>
+                <Style TargetType="CalendarDayButton">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+
+                    <Style.Triggers>
+                        <!-- Trigger for blackout dates -->
+                        <DataTrigger Binding="{Binding IsBlackoutDate, RelativeSource={RelativeSource Self}}" Value="True">
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Control.Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="CalendarDayButton">
+                                        <Grid>
+                                            <!-- Background and Content -->
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+
+                                            <!-- Ellipse overlay for blackout dates -->
+                                            <Ellipse Width="10" Height="10" Fill="Red"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Calendar.Resources>
+        </Calendar>
+
+
+
+
+
+
+
+
         <!-- Membership Cards and List Container -->
-        <Border Margin="10" Grid.Column="1" Grid.Row="1" CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Padding="10" Background="White" VerticalAlignment="Top">
+        <Border Margin="10" Grid.Column="1" Grid.Row="1" CornerRadius="20" BorderBrush="#EEEEEE" BorderThickness="2" Padding="20" Background="White" VerticalAlignment="Top">
             <StackPanel>
                
 
-                <TextBlock Text="Memberships" FontSize="20" FontWeight="Bold" Margin="0,0,0,0"/>
+                <TextBlock Text="Liste des abonnement" FontSize="20" FontWeight="Bold" Margin="0,0,0,0"/>
 
                 <ListView ItemsSource="{Binding Memberships}" x:Name="MembershipListView" SelectionChanged="MembershipListView_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Visible"
-          ScrollViewer.HorizontalScrollBarVisibility="Disabled" MaxHeight="150">
+          ScrollViewer.HorizontalScrollBarVisibility="Disabled" MaxHeight="130">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Date de debut" DisplayMemberBinding="{Binding Date, StringFormat={}{0:MMMM dd,yyyy}}" Width="auto" />
@@ -99,24 +225,24 @@
             </StackPanel>
         </Border>
 
-        <Border Margin="10" Grid.Column="1" Grid.Row="2" CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Padding="10" Background="White" VerticalAlignment="Top">
+        <Border Margin="10" Grid.Column="1" Grid.Row="2" CornerRadius="30" BorderBrush="#EEEEEE" BorderThickness="2" Padding="20" Background="White" VerticalAlignment="Top">
             <StackPanel>
-                <TextBlock Text="Sessions" FontSize="20" FontWeight="Bold" Margin="20,0,0,0"/>
-
-                <!-- ListView for Sessions -->
-                <ListView ItemsSource="{Binding SelectedMembershipSessions}" x:Name="SessionsListView"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" MaxHeight="150">
+                <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Liste des seances:" FontSize="20" FontWeight="Bold" />
+                <TextBlock x:Name="NBS" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="10,0,0,0" />
+                </StackPanel>
+                        <!-- ListView for Sessions -->
+                <ListView ItemsSource="{Binding SelectedMembershipSessions}" x:Name="SessionsListView"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" MaxHeight="130">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Session Date" DisplayMemberBinding="{Binding SessionDate, StringFormat={}{0:MMMM dd,yyyy}}" Width="auto" />
                             <GridViewColumn Header="Membership ID" DisplayMemberBinding="{Binding MembershipId}" Width="auto"/>
                             <GridViewColumn Header="Session ID" DisplayMemberBinding="{Binding SessionId}" Width="auto"/>
+                            
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <StackPanel Orientation="Horizontal" Margin="10">
-                    <Button Content="Add Session" Click="AddSessionButton_Click" Margin="5"/>
-                    <Button Name="DeleteSessionButton" Content="Delete Session" Click="DeleteSessionButton_Click" Margin="5" IsEnabled="{Binding SessionSelected}"/>
-                </StackPanel>
+               
             </StackPanel>
         </Border>
     </Grid>

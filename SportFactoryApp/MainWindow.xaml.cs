@@ -19,6 +19,7 @@ namespace SportFactoryApp
 {
     public partial class MainWindow : Window
     {
+        private readonly GymContext _context;
         private ToggleButton _lastCheckedButton;
         private int _selectedRecipientId;
         public ObservableCollection<User> Users { get; set; } = new ObservableCollection<User>();
@@ -27,9 +28,11 @@ namespace SportFactoryApp
         public MainWindow()
         {
             InitializeComponent();
+            _context = new GymContext();
             LoadUserProfile(); // Load user profile on startup
             ShowMembersView(); // Default view
             LoadUsers(); // Load users into the ComboBox
+            DeactivateExpiredMemberships();
 
         }
 
@@ -480,6 +483,27 @@ namespace SportFactoryApp
 
             return foundChild;
         }
+
+        private void DeactivateExpiredMemberships()
+        {
+            DateTime today = DateTime.Now;
+
+            // Get all memberships with Status "Active" that need to be deactivated
+            var membershipsToDeactivate = _context.Membershipss
+                .Where(m => m.Status == "Active" && today > m.Date.AddDays(45))
+                .ToList();
+
+            // Update the status of each membership
+            foreach (var membership in membershipsToDeactivate)
+            {
+                membership.Status = "Desactive";
+            }
+
+            // Save changes to the database
+            _context.SaveChanges();
+        }
+
+
 
 
 

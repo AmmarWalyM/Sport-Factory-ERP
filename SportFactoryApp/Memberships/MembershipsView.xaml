@@ -178,7 +178,7 @@
           AutoGenerateColumns="False" 
           SelectionChanged="MembershipDataGrid_SelectionChanged"
           BorderThickness="0"
-          MaxHeight="450"
+          MaxHeight="400"
           ScrollViewer.CanContentScroll="True"
           CanUserAddRows="False" 
           CanUserResizeRows="False"

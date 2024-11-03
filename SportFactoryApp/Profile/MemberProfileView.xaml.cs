@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Controls.Primitives;
+using System.Diagnostics;
+using Xceed.Wpf.AvalonDock.Controls;
+using Syncfusion.Windows.Shared;
 
 namespace SportFactoryApp.Profile
 {
@@ -21,24 +25,34 @@ namespace SportFactoryApp.Profile
     public partial class MemberProfileView : UserControl
     {
         private readonly GymContext _context;
+        public List<DateTime> highlightedDates = new List<DateTime>();
+        public DateTime CurrentDate { get; set; } // Property for binding
+        public List<string> Tooltips { get; set; }
+        //public HashSet<DateTime> SpecialDates { get; } = new HashSet<DateTime>();
         public Member Member { get; private set; }
         public int MembershipCount { get; set; }
         public decimal TotalRevenue { get; set; }
         public MemberProfileView(Member member)
-         
-            {
-                InitializeComponent();
 
-                _context = new GymContext();
+        {
+            InitializeComponent();
+            CurrentDate = DateTime.Today;
 
-                // Fetch memberships from the database for the given member
-                member.Memberships = FetchMembershipsForMember(member.MemberId);
-
-                DisplayMemberData(member);
-            //LoadMemberData();
+            _context = new GymContext();
+            
+            // Fetch memberships from the database for the given member
+            member.Memberships = FetchMembershipsForMember(member.MemberId);
             DataContext = member;
             Member = member; // Assign the passed member to the property
-           
+            DisplayMemberData(member);
+            //LoadMemberData();
+
+            //LoadHighlightedDates(member.MemberId);
+            LoadMembershipsForMember(member.MemberId);
+            //LoadHighlightedDates(member.MemberId);
+            //LoadSpecialDates();
+            
+            LoadHighlightedDates(member.MemberId);
         }
 
         private Membership GetNewestActiveMembership()
@@ -86,6 +100,9 @@ namespace SportFactoryApp.Profile
             int TotalRevenueString = (int)totalRevenue;
             string TotalDinars = TotalRevenueString.ToString() + " DT";
             TotalRevenueTextBlock.Text = TotalDinars;// Formats as currency
+            int sessionCount = GetSessionCountForMember(member.MemberId);
+
+            NbSeancesTextBlock.Text = sessionCount.ToString();
         }
 
         private void MembershipListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -119,29 +136,28 @@ namespace SportFactoryApp.Profile
                 .Where(s => s.MembershipId == membership.MembershipId)
                 .ToList();
 
+            int NbSessions = _context.Sessions.Count(s => s.MembershipId == membership.MembershipId);
+            NBS.Text = NbSessions.ToString();
             // Display the sessions in the ListView
             SessionsListView.ItemsSource = sessions;
 
             // Check if the number of sessions has reached 12
             if (_context.Sessions.Count(s => s.MembershipId == membership.MembershipId) >= 12)
 
-                {
-                    // Change the membership status to "Inactive"
-                    membership.Status = "Desactive";
+            {
+                // Change the membership status to "Inactive"
+                membership.Status = "Desactive";
 
                 // Save the changes to the database
                 _context.SaveChanges();
 
                 // Notify the user
-                MessageBox.Show("This membership is now inactive due to 12 completed sessions.");
+                MessageBox.Show("Cet abonnement est désactivé en raison de la fin des 12 séances !");
 
                 // Refresh the memberships ListView to show the updated status
                 MembershipListView.Items.Refresh();
             }
-            else
-            {
-                MessageBox.Show("This membership is active ");
-            }
+            
         }
 
         private void AddSessionButton_Click(object sender, RoutedEventArgs e)
@@ -173,14 +189,14 @@ namespace SportFactoryApp.Profile
                         _context.SaveChanges(); // Save changes to update the membership status
 
                         // Notify the user
-                        MessageBox.Show("This membership is now inactive due to 12 completed sessions.");
+                        MessageBox.Show("Cet abonnement est maintenant désactivé en raison de la fin des 12 séances !");
                     }
 
                     // Refresh the sessions list to show the newly added session
                     LoadSessions(activeMembership.MembershipId);
                     LoadMembershipsForMember(Member.MemberId);
                     // Notify the user that the session was added successfully
-                    MessageBox.Show("Session added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Seance Ajouté avec succes!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
                 {
@@ -269,15 +285,78 @@ namespace SportFactoryApp.Profile
             DeleteSessionButton.IsEnabled = SessionsListView.SelectedItem != null;
         }
 
+        public int GetSessionCountForMember(int memberId)
+        {
+            // Count the sessions associated with the specific member ID
+            int sessionCount = _context.Sessions.Count(s => s.MemberId == memberId);
+            int SingleSessionCount = _context.Membershipss.Count(m => m.Type == "Seance Unique" && m.MemberId == memberId);
+            int totalSessions = sessionCount + SingleSessionCount;
+            return totalSessions;
+        }
 
 
 
+        private void LoadHighlightedDates(int memberId)
+        {
+            var uniqueMembershipDates = _context.Membershipss
+        .Where(m => m.Type == "Seance Unique")
+        .Select(m => m.Date)
+        .Distinct();
+
+            var sessionDates = _context.Sessions
+                .Where(s => s.MemberId == memberId)
+                .Select(s => s.SessionDate.Date)
+                .Distinct();
+
+            // Combine the two sets of dates and store them in highlightedDates
+            highlightedDates = uniqueMembershipDates
+                .Concat(sessionDates) // Combine the two lists
+                .Distinct() // Ensure all dates are unique
+                .ToList(); // Convert to a List
 
 
 
+            // Ensure you call this after loading the member's data
+            Debug.WriteLine($"Highlighted Dates for Member ID {memberId}: {string.Join(", ", highlightedDates)}");
+        }
+
+        private void Calendar_Loaded(object sender, RoutedEventArgs e)
+        {
+            var calendar = sender as Calendar;
+            if (calendar == null) return;
+
+            // Clear previous blackout dates
+            calendar.BlackoutDates.Clear();
+
+            // Add the highlighted dates to the BlackoutDates collection
+            foreach (var date in highlightedDates)
+            {
+                calendar.BlackoutDates.Add(new CalendarDateRange(date));
+                
+            }
+          calendar.DisplayDate = CurrentDate;
+        }
     }
 
 
-}
+        public static class VisualTreeHelperExtensions
+    {
+        public static IEnumerable<T> FindVisualChildren<T>(this DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj == null) yield break;
 
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(depObj, i);
+                if (child is T t) yield return t;
+
+                foreach (var childOfChild in FindVisualChildren<T>(child))
+                {
+                    yield return childOfChild;
+                }
+            }
+        }
+    }
+
+}
 
