@@ -29,11 +29,11 @@
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="Black"/>
-            
+            <Setter Property="Background" Value="White"></Setter>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Height" Value="40"/>
-            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -128,7 +128,7 @@
 
 
             <!-- Search Bar with AutoComplete -->
-            <Border CornerRadius="15" Background="#f0f2f5" Grid.Column="0" Margin="20,0,50,5" Padding="10" HorizontalAlignment="left" Width="400">
+            <Border CornerRadius="15" Background="White" Grid.Column="0" Margin="20,0,50,5" Padding="10" HorizontalAlignment="left" Width="400">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -140,12 +140,12 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Search Icon -->
-                    <Image Source="pack://application:,,,/Images/icons8-chercher-30.png" Width="20" Height="20" VerticalAlignment="Center" Grid.Column="0" Margin="5,0"/>
+                    <Image Source="pack://application:,,,/Images/icons8-chercher-30.png" Width="20" Height="20" HorizontalAlignment="Center" Grid.Column="0" Margin="5,0"/>
 
                     <!-- Search TextBox -->
                     <xctk:WatermarkTextBox x:Name="SearchTextBox" Grid.Column="1" Height="30" VerticalAlignment="Center" 
                                        Watermark="Rechercher..." BorderThickness="0" Padding="5,5" 
-                                       TextChanged="SearchTextBox_TextChanged" Background="#f0f2f5"
+                                       TextChanged="SearchTextBox_TextChanged" Background="White"
                                            />
 
                     <Popup x:Name="SearchResultPopup" PlacementTarget="{Binding ElementName=SearchTextBox}" 
@@ -183,13 +183,38 @@
             </Border>
             <!-- Profile Section -->
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" Margin="10,0,10,0">
-                <Ellipse Width="40" Height="40" HorizontalAlignment="Right"  Margin="0,0,10,0">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="pack://application:,,,/Images/icons8-account-30.png"/>
-                    </Ellipse.Fill>
-                </Ellipse>
-                <TextBlock x:Name="LoggedInUserTextBlock" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="#34495E" Margin="0,0,10,0"/>
+                <StackPanel x:Name="UserControlPanel" Orientation="Horizontal" Cursor="Hand" MouseDown="UserControlPanel_MouseDown">
+                    <Ellipse Width="40" Height="40" HorizontalAlignment="Right" Margin="0,0,10,0">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="pack://application:,,,/Images/icons8-account-30.png"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <TextBlock x:Name="LoggedInUserTextBlock" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="#34495E" Margin="0,0,10,0"/>
+                </StackPanel>
+
+                <Popup x:Name="LogoutPopup" PlacementTarget="{Binding ElementName=UserControlPanel}" StaysOpen="True">
+                    <Border Background="White"  Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="Yeziha?" FontWeight="Bold" HorizontalAlignment="Center" FontSize="16"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Border CornerRadius="15" Background="Black"  BorderBrush="Transparent" BorderThickness="0" Margin="5">
+                                <Button  Click="LogoutButton_Click" Background="Transparent" Padding="5" BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="pack://application:,,,/Images/icons8-sortie-48.png" Width="20"></Image>
+                                        <TextBlock Text="Yeziha" FontWeight="Bold" FontSize="15" VerticalAlignment="Center"  Foreground="#aefe14"/>
+
+                                    </StackPanel>
+                                </Button>
+                            </Border>
+                                <Border CornerRadius="15" Background="#aefe14" BorderBrush="Transparent" BorderThickness="0" Margin="5">
+                                    <Button Padding="5" Content="Le Mezelna" Click="CancelButton_Click" FontWeight="Bold" Background="Transparent" Foreground="Black" BorderThickness="0" FontSize="12"  />
+                                </Border>
+                            </StackPanel>
             </StackPanel>
+                    </Border>
+                </Popup>
+            </StackPanel>
+
         </Grid>
 
         <!-- Sidebar -->
@@ -207,14 +232,14 @@
                 <ToggleButton x:Name="OverviewToggleButton" Style="{StaticResource SidebarButtonStyle}" 
               Click="ToggleButton_Click" Width="250" Height="40">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="250">
-                        <Image Source="pack://application:,,,/Images/icons8-accueil-30.png" Height="30" Margin="15,0,10,0"/>
+                        <Image Source="pack://application:,,,/Images/icons8-accueil-94.png" Height="30" Margin="15,0,10,0"/>
                         <TextBlock Text="Overview" VerticalAlignment="Center" FontFamily="DN Sans" Margin="5"/>
                     </StackPanel>
                 </ToggleButton>
 
                 <ToggleButton Style="{StaticResource SidebarButtonStyle}" Click="MembersButton_Click" Width="250" Height="40" BorderThickness="0">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="250">
-                        <Image Source="pack://application:,,,/Images/icons8-conférence-30.png" Height="30" Margin="15,0,10,0"/>
+                        <Image Source="pack://application:,,,/Images/icons8-crowd-94.png" Height="30" Margin="15,0,10,0"/>
                         <TextBlock Text="Membres" VerticalAlignment="Center" Margin="5"/>
                     </StackPanel>
                 </ToggleButton>
@@ -222,7 +247,7 @@
                 <ToggleButton x:Name="MembershipToggleButton" Style="{StaticResource SidebarButtonStyle}" 
               Click="MembershipsButton_Click" Width="250" Height="40">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="250">
-                        <Image Source="pack://application:,,,/Images/icons8-carte-de-membre-30.png" Height="30" Margin="15,0,10,0"/>
+                        <Image Source="pack://application:,,,/Images/icons8-carte-de-membre-94.png" Height="30" Margin="15,0,10,0"/>
                         <TextBlock Text="Abonnements" VerticalAlignment="Center" Margin="5"/>
                     </StackPanel>
                 </ToggleButton>

@@ -23,7 +23,9 @@
     <None Remove="Images\Hourglass.gif" />
     <None Remove="Images\icons8-account-30.png" />
     <None Remove="Images\icons8-accueil-30.png" />
+    <None Remove="Images\icons8-accueil-94.png" />
     <None Remove="Images\icons8-add-48.png" />
+    <None Remove="Images\icons8-ajouter-94.png" />
     <None Remove="Images\icons8-bill-30.png" />
     <None Remove="Images\icons8-cadeau-94.png" />
     <None Remove="Images\icons8-carte-de-membre-30.png" />
@@ -34,6 +36,7 @@
     <None Remove="Images\icons8-conférence-30.png" />
     <None Remove="Images\icons8-crowd-94.png" />
     <None Remove="Images\icons8-entrepot-30.png" />
+    <None Remove="Images\icons8-gym-94.png" />
     <None Remove="Images\icons8-human-resources-30.png" />
     <None Remove="Images\icons8-info-30.png" />
     <None Remove="Images\icons8-love-circled-94.png" />
@@ -46,6 +49,7 @@
     <None Remove="Images\icons8-redémarrer-30.png" />
     <None Remove="Images\icons8-sablier-50.png" />
     <None Remove="Images\icons8-send-30.png" />
+    <None Remove="Images\icons8-sortie-48.png" />
     <None Remove="Images\icons8-supprimer-pour-toujours-30.png" />
     <None Remove="Images\icons8-symbole-de-mars-94.png" />
     <None Remove="Images\icons8-symbole-de-vénus-94.png" />
@@ -132,7 +136,13 @@
     <Resource Include="Images\icons8-accueil-30.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\icons8-accueil-94.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\icons8-add-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-ajouter-94.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-bill-30.png">
@@ -160,6 +170,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-entrepot-30.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-gym-94.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-human-resources-30.png">
@@ -196,6 +209,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-send-30.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-sortie-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-supprimer-pour-toujours-30.png">

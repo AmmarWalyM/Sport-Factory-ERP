@@ -97,13 +97,13 @@
                 <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="15" Padding="20">
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBox x:Name="UsernameTextBox" Margin="0 0 0 25" Width="300" FontSize="18" 
-                                 materialDesign:HintAssist.Hint="Enter Your Username" 
+                                 materialDesign:HintAssist.Hint="Username" 
                                  BorderThickness="2" 
                                  BorderBrush="{DynamicResource MaterialDesignDivider}" 
                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
 
                         <PasswordBox Name="PasswordBox" Width="300" MinHeight="50" FontSize="18" 
-                                     materialDesign:HintAssist.Hint="Enter Your Password" 
+                                     materialDesign:HintAssist.Hint="Mot de passe" 
                                      BorderThickness="2" 
                                      BorderBrush="{DynamicResource MaterialDesignDivider}" 
                                      Style="{StaticResource MaterialDesignOutlinedPasswordBox}"/>

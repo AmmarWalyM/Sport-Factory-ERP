@@ -53,7 +53,7 @@
 
                 <!-- Profile Picture -->
                 <Border Width="150" Height="150" Margin="0,0,0,10" ClipToBounds="True" HorizontalAlignment="Center">
-                    <Ellipse Stroke="#AEFE14" StrokeThickness="2">
+                    <Ellipse Stroke="#AEFE14" StrokeThickness="5">
                         <Ellipse.Fill>
                             <ImageBrush ImageSource="{Binding Gender, Converter={StaticResource GenderToImageConverter}}" Stretch="UniformToFill"/>
                         </Ellipse.Fill>
@@ -61,7 +61,7 @@
                 </Border>
                 <StackPanel Orientation="Vertical" Margin="10,30,0,0">
                    
-                <TextBlock Text="{Binding FullName}" FontWeight="Bold" FontSize="40" Margin="0,0,0,20" Foreground="White"/>
+                    <TextBlock Text="{Binding FullName}" FontWeight="Bold" FontSize="40" Margin="0,0,0,20" Foreground="White"/>
 
 
                     <StackPanel Orientation="Horizontal">
@@ -113,7 +113,7 @@
                 <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Background="Black" Padding="20" Margin="5" Width="Auto" Opacity="0.8">
                     <StackPanel HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="pack://application:,,,/Images/icons8-pièces-de-monnaie-94.png" Width="30"/>
+                                <Image Source="pack://application:,,,/Images/icons8-carte-de-membre-94.png" Width="30"/>
                             <TextBlock Text="Nbr d'abonnement" FontSize="12" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
                         </StackPanel>
                         <TextBlock x:Name="MembershipCountTextBlock" FontSize="22" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center"/>
@@ -135,7 +135,7 @@
                 <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Background="Black" Padding="20" Margin="5" Width="Auto" Opacity="0.8">
                     <StackPanel HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="pack://application:,,,/Images/icons8-pièces-de-monnaie-94.png" Width="30"/>
+                            <Image Source="pack://application:,,,/Images/icons8-gym-94.png" Width="30"/>
                             <TextBlock Text="Nbr des seances" FontSize="12" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
                         </StackPanel>
                         <TextBlock  x:Name="NbSeancesTextBlock" FontSize="22" FontWeight="Bold" Margin="10" Foreground="#aefe14" HorizontalAlignment="Center"/>
@@ -144,9 +144,14 @@
                 </Border>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
-                
-                    <Button Content="Add Session" Click="AddSessionButton_Click" Margin="5" Background="#aefe14" Foreground="Black" />
-                    <Button Name="DeleteSessionButton" Content="Delete Session" Click="DeleteSessionButton_Click" Margin="5" IsEnabled="{Binding SessionSelected}"  Background="Black" Foreground="#aefe14" />
+
+                    <Button Click="AddSessionButton_Click" Margin="0" Background="#aefe14" Foreground="Black" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Images/icons8-ajouter-94.png" Width="30"/>
+                            <TextBlock Text="Ajouter seance" FontSize="12" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="DeleteSessionButton" Content="Supprimer Seance" Click="DeleteSessionButton_Click" Margin="5" IsEnabled="{Binding SessionSelected}"  Background="Black" Foreground="#aefe14" FontSize="8" />
                 </StackPanel>
                 
             </StackPanel>
@@ -163,29 +168,29 @@
           Language="fr-FR">
             <Calendar.Resources>
                 <Style TargetType="CalendarDayButton">
-                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Background" Value="Black"/>
                     <Setter Property="BorderBrush" Value="Transparent"/>
                     <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <!-- Set the font weight to bold -->
 
                     <Style.Triggers>
                         <!-- Trigger for blackout dates -->
                         <DataTrigger Binding="{Binding IsBlackoutDate, RelativeSource={RelativeSource Self}}" Value="True">
+                            <Setter Property="BorderBrush" Value="Red"/>
+                            <Setter Property="BorderThickness" Value="2"/>
                             <Setter Property="Background" Value="White"/>
+                            <Setter Property="Padding" Value="3"/>
                             <Setter Property="Control.Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="CalendarDayButton">
-                                        <Grid>
-                                            <!-- Background and Content -->
-                                            <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </Border>
-
-                                            <!-- Ellipse overlay for blackout dates -->
-                                            <Ellipse Width="10" Height="10" Fill="Red"
-                                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Grid>
+                                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="15"
+                                        Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -194,6 +199,7 @@
                 </Style>
             </Calendar.Resources>
         </Calendar>
+
 
 
 
@@ -225,7 +231,7 @@
             </StackPanel>
         </Border>
 
-        <Border Margin="10" Grid.Column="1" Grid.Row="2" CornerRadius="30" BorderBrush="#EEEEEE" BorderThickness="2" Padding="20" Background="White" VerticalAlignment="Top">
+        <Border Margin="10" Grid.Column="1"  Grid.Row="2" CornerRadius="30" BorderBrush="#EEEEEE" BorderThickness="2" Padding="20" Background="White" VerticalAlignment="Top">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Liste des seances:" FontSize="20" FontWeight="Bold" />

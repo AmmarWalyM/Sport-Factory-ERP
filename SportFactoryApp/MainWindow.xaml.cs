@@ -502,6 +502,30 @@ namespace SportFactoryApp
             // Save changes to the database
             _context.SaveChanges();
         }
+        private void UserControlPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Show the logout popup when the user clicks on the image or text
+            LogoutPopup.IsOpen = true;
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Implement your logout logic here
+            // For example, clear the session and navigate back to the login window
+            LogSession.CurrentUserId = -1; //  your session management is
+            var loginWindow = new LoginWindow();// Assuming you have a LoginWindow class
+            LogoutPopup.IsOpen = false;
+            this.Close();
+            loginWindow.Show();
+             // Close the current window if applicable
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Close the popup if the user cancels the logout action
+            LogoutPopup.IsOpen = false;
+        }
+
 
 
 

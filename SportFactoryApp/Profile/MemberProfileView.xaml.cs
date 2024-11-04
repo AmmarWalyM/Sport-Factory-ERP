@@ -326,17 +326,20 @@ namespace SportFactoryApp.Profile
             if (calendar == null) return;
 
             // Clear previous blackout dates
-            calendar.BlackoutDates.Clear();
+            calendar.SelectedDates.Clear();
 
             // Add the highlighted dates to the BlackoutDates collection
             foreach (var date in highlightedDates)
             {
                 calendar.BlackoutDates.Add(new CalendarDateRange(date));
                 
+                
             }
           calendar.DisplayDate = CurrentDate;
         }
+
     }
+
 
 
         public static class VisualTreeHelperExtensions
