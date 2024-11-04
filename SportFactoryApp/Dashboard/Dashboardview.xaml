@@ -1,0 +1,347 @@
+﻿<UserControl x:Class="SportFactoryApp.Dashboard.Dashboardview"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SportFactoryApp.Dashboard"
+             xmlns:local1="clr-namespace:SportFactoryApp.Converters"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:charting="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:uc="clr-namespace:SportFactoryApp.Dashboard"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+            
+    <UserControl.Resources>
+      <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+              <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+              <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+              <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+          </ResourceDictionary.MergedDictionaries>
+            <local1:OADateToDateTimeConverter x:Key="OADateToDateTimeConverter"/>
+            <local1:SalesComparisonConverter x:Key="SalesComparisonConverter"/>
+            <local1:FirstLetterMultiConverter x:Key="FirstLetterMultiConverter"/>
+        <SolidColorBrush x:Key="BlackColor" Color="#083353"/>
+        <SolidColorBrush x:Key="GreyColor" Color="#B7B7B7"/>
+        <Style x:Key="titleText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource BlackColor}" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+ 
+            <Style x:Key="whiteBorder" TargetType="Border">
+            <Setter Property="Background" Value="#ffffff" />
+            <Setter Property="CornerRadius" Value="15" />
+            <Setter Property="Padding" Value="20" />
+        </Style>
+
+
+        <Style x:Key="secondaryText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource GreyColor}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Margin" Value="0 5 0 5" />
+        </Style>
+            <Style x:Key="CustomToggleButtonStyle" TargetType="ToggleButton">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="{TemplateBinding Background}"
+
+                        CornerRadius="20"
+                        Padding="10"
+                        >
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background" Value="#AEFE14"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <!-- Custom active color -->
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Background" Value="Black"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <!-- Custom inactive color -->
+                                    <Setter Property="Foreground" Value="#AEFE14"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.08*"/>
+            <RowDefinition Height="0.9*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border  CornerRadius="10" Margin="5" Height="auto" HorizontalAlignment="Left" VerticalAlignment="Stretch"  >
+                <StackPanel  Grid.Column="0" Background="{DynamicResource MaterialDesignPaper}"  VerticalAlignment="Center" Orientation="Horizontal"  Margin="5">
+                    <TextBlock Text="Date Range:"/>
+                    <xctk:RangeSlider 
+             x:Name="DateRangeSlider"
+             TickFrequency="1"
+             IsSnapToTickEnabled="True"
+             Width="200" 
+             Minimum="{Binding MinimumDateInOADate}" 
+             Maximum="{Binding MaximumDateInOADate}"
+             LowerValue="{Binding LowerBound, Mode=TwoWay}" 
+             HigherValue="{Binding UpperBound, Mode=TwoWay}" >
+ 
+                    </xctk:RangeSlider>
+
+
+                        <DatePicker x:Name="LowerBoundDatePicker" 
+                    SelectedDate="{Binding LowerBound, Mode=TwoWay, Converter={StaticResource OADateToDateTimeConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    DisplayDateStart="{Binding MinimumDateInOADate, Converter={StaticResource OADateToDateTimeConverter}}"
+                    DisplayDateEnd="{Binding UpperBound, Converter={StaticResource OADateToDateTimeConverter}}" />
+
+                        <DatePicker x:Name="UpperBoundDatePicker" 
+                    SelectedDate="{Binding UpperBound, Mode=TwoWay, Converter={StaticResource OADateToDateTimeConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    DisplayDateStart="{Binding LowerBound, Converter={StaticResource OADateToDateTimeConverter}}"
+                    DisplayDateEnd="{Binding MaximumDateInOADate, Converter={StaticResource OADateToDateTimeConverter}}" />
+       
+                </StackPanel>
+            </Border>
+        </Grid>
+        <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" >
+            <Button Content="Last 7 Days"  Height="auto" Width="auto" Margin="5" Click="Last7Days_Click"/>
+            <Button Content="Last 30 Days" Height="auto" Width="auto" Margin="5" Click="Last30Days_Click"/>
+            <Button Content="Until Today"  Height="auto" Width="auto" Margin="5" Click="UntilToday_Click"/>
+        </StackPanel>
+
+
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.7*"/>
+                <ColumnDefinition Width="0.2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+                    <UniformGrid Rows="1" Columns="3">
+                        <Viewbox Stretch="Uniform">
+                            <uc:InfoCard Title="Distinct Members">
+                                <uc:InfoCard.SubTitle>
+                                    <MultiBinding Converter="{StaticResource SalesComparisonConverter}">
+                                        <Binding Path="PreviousRangeDistinctMembersCount"/>
+                                        <Binding Path="CurrentWeekDistinctMembersCount"/>
+                                    </MultiBinding>
+                                </uc:InfoCard.SubTitle>
+                                <uc:InfoCard.Amount>
+                                    <Binding Path="DistinctMembersCount"/>
+                                </uc:InfoCard.Amount>
+                                <uc:InfoCard.Image>
+                                    <Binding Source="pack://application:,,,/Images/sale.png"/>
+                                </uc:InfoCard.Image>
+                            </uc:InfoCard>
+                        </Viewbox>
+
+                        <Viewbox Stretch="Uniform">
+                            <uc:InfoCard Title="Total Sales">
+                                <uc:InfoCard.SubTitle>
+                                    <MultiBinding Converter="{StaticResource SalesComparisonConverter}">
+                                        <Binding Path="PreviousRangeTotalSales"/>
+                                        <Binding Path="CurrentWeekTotalSales"/>
+                                    </MultiBinding>
+                                </uc:InfoCard.SubTitle>
+                                <uc:InfoCard.Amount>
+                                    <Binding Path="TotalSales"/>
+                                </uc:InfoCard.Amount>
+                                <uc:InfoCard.Image>
+                                    <Binding Source="pack://application:,,,/Images/sale.png"/>
+                                </uc:InfoCard.Image>
+                            </uc:InfoCard>
+                        </Viewbox>
+                        <Viewbox Stretch="Uniform">
+                            <uc:InfoCard Title="Distinct Memberships" >
+                                <uc:InfoCard.SubTitle>
+                                    <MultiBinding Converter="{StaticResource SalesComparisonConverter}">
+                                        <Binding Path="PreviousRangeDistinctMembershipsCount"/>
+                                        <Binding Path="CurrentWeekDistinctMembershipsCount"/>
+                                    </MultiBinding>
+                                </uc:InfoCard.SubTitle>
+                                <uc:InfoCard.Amount>
+                                    <Binding Path="DistinctMembershipsCount"/>
+                                </uc:InfoCard.Amount>
+                                <uc:InfoCard.Image>
+                                    <Binding Source="pack://application:,,,/Images/sale.png"/>
+                                </uc:InfoCard.Image>
+                            </uc:InfoCard>
+                        </Viewbox>
+
+                    </UniformGrid>
+                </ScrollViewer>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="5*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Border CornerRadius="20"  Padding="0" Margin="10" HorizontalAlignment="Right" Background="Black">
+                            <StackPanel Orientation="Horizontal">
+                                <ToggleButton x:Name="ToggleActiveButton" Content="Active" 
+              Style="{StaticResource CustomToggleButtonStyle}"
+              Width="100" Height="40" Margin="0,0"
+              Checked="ToggleButton_Checked"
+              Unchecked="ToggleButton_Unchecked"/>
+                                <ToggleButton x:Name="ToggleAllButton" Content="Tous" 
+              Style="{StaticResource CustomToggleButtonStyle}"
+              Width="100" Height="40" Margin="0,0"
+              Checked="ToggleButton_Checked"
+              Unchecked="ToggleButton_Unchecked"    />
+                            </StackPanel>
+                        </Border>
+                        <DataGrid 
+        x:Name="SessionsDataGrid"
+        ItemsSource="{Binding FilteredSessions}" 
+        AutoGenerateColumns="False" 
+        CanUserAddRows="False" 
+        GridLinesVisibility="Horizontal" 
+        HorizontalGridLinesBrush="#FFD7D7D7" 
+        EnableRowVirtualization="False" 
+        IsReadOnly="True" 
+        BorderBrush="Black" 
+        ColumnWidth="*"
+        Style="{StaticResource MaterialDesignDataGrid}" 
+        RowBackground="{DynamicResource MaterialDesignPaper}"
+        AlternatingRowBackground="{DynamicResource MaterialDesignPaper}"
+        Visibility="Visible">
+                                <!-- Initially visible -->
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Session Date" Binding="{Binding SessionDate, StringFormat=MM/dd/yyyy}" />
+                                    <DataGridTextColumn Header="Member Name" Binding="{Binding Member.FullName}" />
+                                    <DataGridTextColumn Header="Membership Type" Binding="{Binding Membership.Type}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <DataGrid 
+        x:Name="MembersDataGrid"
+        ItemsSource="{Binding FilteredMembers}" 
+        AutoGenerateColumns="False" 
+        CanUserAddRows="False" 
+        GridLinesVisibility="Horizontal" 
+        HorizontalGridLinesBrush="#FFD7D7D7" 
+        EnableRowVirtualization="False" 
+        IsReadOnly="True" 
+        BorderBrush="Black"  
+        Style="{StaticResource MaterialDesignDataGrid}" 
+        RowBackground="{DynamicResource MaterialDesignPaper}"
+        AlternatingRowBackground="{DynamicResource MaterialDesignPaper}"
+        Visibility="Collapsed">
+                                <!-- Initially collapsed -->
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Member Name" Binding="{Binding Member.FullName}" />
+                                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
+                                    <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=C}" />
+                                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                                    <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=MM/dd/yyyy}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+               
+                   
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="10">
+                            <Border Background="{DynamicResource MaterialDesignPaper}"  CornerRadius="10"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <charting:PieChart x:Name="PieChart2" MaxHeight="250" Margin="10"
+                                                   LegendLocation="Right" 
+                                                   HorizontalAlignment="Stretch" 
+                                                   VerticalAlignment="Stretch"
+                                                   InnerRadius="60">
+
+                                </charting:PieChart>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="1" Margin="10">
+                            <Border Background="{DynamicResource MaterialDesignPaper}"  CornerRadius="10"
+            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                <lvc:CartesianChart Margin="5,15,0,15" LegendLocation="None" Series="{Binding LineChartSeries}">
+
+                                    <!-- Tooltip styling -->
+                                    <lvc:CartesianChart.DataTooltip>
+                                        <lvc:DefaultTooltip Background="Red" Foreground="White" Opacity="0.7" BulletSize="10" />
+                                    </lvc:CartesianChart.DataTooltip>
+
+                                    <!-- Axis X styling -->
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis Title="Date" Labels="{Binding DateLabels}" Foreground="#90A3B2" ShowLabels="True">
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator StrokeThickness="0" Step="2"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+
+                                    <!-- Axis Y styling -->
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Title="Total Sales" MinValue="40" MaxValue="350" Foreground="#90A3B2" ShowLabels="True">
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator StrokeThickness="0"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="10" >
+                    <Border Background="{DynamicResource MaterialDesignPaper}" CornerRadius="10"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel x:Name="MyTopMembersContainer" Orientation="Vertical" Margin="10">
+                            <TextBlock Text="Sales List" Style="{StaticResource titleText}"/>
+                            <TextBlock Text="This is the sales data with the most revenue for this month" TextWrapping="Wrap" Margin="0 10 0 10" Style="{StaticResource secondaryText}"/>
+                            <StackPanel x:Name="DynamicMemberContainer" Orientation="Vertical" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="1" Margin="10" >
+
+                    <Border  Background="{DynamicResource MaterialDesignPaper}"  CornerRadius="10"  >
+                        <Grid>
+                            <TextBlock Text="Sales Report" Style="{StaticResource titleText}"/>
+                            <lvc:CartesianChart Name="HistogramChart" Series="{Binding HistogramSeries}" Margin="0 40 0 30">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis  Labels="{Binding DaysOfWeekLabels}">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator Step="1" />
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="Total Sales" LabelFormatter="{Binding YFormatter}" />
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                            <uc:Legends HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="SportFactoryApp.Profile.MemberProfileView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:SportFactoryApp.Converters"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <local:GenderToImageConverter x:Key="GenderToImageConverter"/>
+    </UserControl.Resources>
+
+    <Grid Margin="30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="170"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Profile Information Container -->
+        <Border Grid.Column="0" Grid.RowSpan="2" MaxHeight="350" CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Padding="10" Background="White" Margin="10" VerticalAlignment="Top">
+            <StackPanel>
+                <TextBlock Text="Member Profile" FontSize="20" FontWeight="Bold" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+
+                <!-- Profile Picture -->
+                <Border Width="150" Height="150" Margin="0,0,0,10" ClipToBounds="True" HorizontalAlignment="Center">
+                    <Ellipse Stroke="Gray" StrokeThickness="1">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding Gender, Converter={StaticResource GenderToImageConverter}}" Stretch="UniformToFill"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </Border>
+
+                <TextBlock Text="First Name:" />
+                <TextBlock Text="{Binding FirstName}" FontWeight="Bold"/>
+
+                <TextBlock Text="Last Name:" />
+                <TextBlock Text="{Binding LastName}" FontWeight="Bold"/>
+
+                <TextBlock Text="Gender:" />
+                <TextBlock Text="{Binding Gender}" FontWeight="Bold"/>
+
+                <TextBlock Text="Birth Date:" />
+                <TextBlock Text="{Binding BirthDate, StringFormat='{}{0:MMMM dd, yyyy}'}" FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="0">
+            <!-- Card Section -->
+            <StackPanel Orientation="Horizontal"  Margin="10" Height="150" VerticalAlignment="Top" HorizontalAlignment="Right">
+                <!-- Card 1: Membership Count -->
+                <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Background="White" Padding="20" Margin="5" Width="Auto">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="Nombre d'abon" FontWeight="Bold" FontSize="14"/>
+                        <TextBlock x:Name="MembershipCountTextBlock" FontSize="22" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 2: Revenue Generated -->
+                <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Background="White" Padding="20" Margin="5" Width="Auto">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="Total Revenue" FontWeight="Bold" FontSize="14"/>
+                        <TextBlock x:Name="TotalRevenueTextBlock" FontSize="22" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 3: Session Count -->
+                <Border CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Background="white" Padding="20" Margin="5" Width="Auto" >
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="Total Sessions" FontWeight="Bold" FontSize="14"/>
+                        <TextBlock Text="N/A" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" Margin="10"/>
+                        <!-- Placeholder for session data -->
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+        <!-- Membership Cards and List Container -->
+        <Border Margin="10" Grid.Column="1" Grid.Row="1" CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Padding="10" Background="White" VerticalAlignment="Top">
+            <StackPanel>
+               
+
+                <TextBlock Text="Memberships" FontSize="20" FontWeight="Bold" Margin="0,0,0,0"/>
+
+                <ListView ItemsSource="{Binding Memberships}" x:Name="MembershipListView" SelectionChanged="MembershipListView_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Visible"
+          ScrollViewer.HorizontalScrollBarVisibility="Disabled" MaxHeight="150">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Date de debut" DisplayMemberBinding="{Binding Date, StringFormat={}{0:MMMM dd,yyyy}}" Width="auto" />
+                            <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" Width="auto"/>
+                            <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="auto"/>
+                            <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+               
+            </StackPanel>
+        </Border>
+
+        <Border Margin="10" Grid.Column="1" Grid.Row="2" CornerRadius="30" BorderBrush="Gray" BorderThickness="0" Padding="10" Background="White" VerticalAlignment="Top">
+            <StackPanel>
+                <TextBlock Text="Sessions" FontSize="20" FontWeight="Bold" Margin="20,0,0,0"/>
+
+                <!-- ListView for Sessions -->
+                <ListView ItemsSource="{Binding SelectedMembershipSessions}" x:Name="SessionsListView"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" MaxHeight="150">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Session Date" DisplayMemberBinding="{Binding SessionDate, StringFormat={}{0:MMMM dd,yyyy}}" Width="auto" />
+                            <GridViewColumn Header="Membership ID" DisplayMemberBinding="{Binding MembershipId}" Width="auto"/>
+                            <GridViewColumn Header="Session ID" DisplayMemberBinding="{Binding SessionId}" Width="auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Button Content="Add Session" Click="AddSessionButton_Click" Margin="5"/>
+                    <Button Name="DeleteSessionButton" Content="Delete Session" Click="DeleteSessionButton_Click" Margin="5" IsEnabled="{Binding SessionSelected}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

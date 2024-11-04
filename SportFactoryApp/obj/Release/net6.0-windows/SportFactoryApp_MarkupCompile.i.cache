@@ -1,0 +1,20 @@
+﻿SportFactoryApp
+1.0.0.0
+
+winexe
+C#
+.cs
+C:\Users\Rayen\OneDrive\Desktop\New folder (2)\Sport-Factory-ERP-hedi\SportFactoryApp\obj\Release\net6.0-windows\
+SportFactoryApp
+none
+false
+TRACE;RELEASE;NET;NET6_0;NETCOREAPP
+C:\Users\Rayen\OneDrive\Desktop\New folder (2)\Sport-Factory-ERP-hedi\SportFactoryApp\App.xaml
+1557021683
+1-560131193
+42329852069
+2901475829219
+Dashboard\Dashboardview.xaml;Dashboard\InfoCard.xaml;Dashboard\Legends.xaml;Dashboard\TopMemberCard.xaml;LoadingWindow.xaml;LoginWindow.xaml;MainWindow.xaml;Memberships\AddMembershipWindow.xaml;Memberships\MembershipsView.xaml;Memberships\UpdateMembershipWindow.xaml;Members\AddMemberWindow.xaml;Members\MembersView.xaml;Members\UpdateMemberWindow.xaml;Overview\OverViewView.xaml;Profile\MemberProfileView.xaml;
+
+True
+
