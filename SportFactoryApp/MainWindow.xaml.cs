@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using SportFactoryApp.Dashboard;
 using System.Collections.ObjectModel;
+using System.Windows.Shapes;
 
 namespace SportFactoryApp
 {
@@ -23,16 +24,20 @@ namespace SportFactoryApp
         private ToggleButton _lastCheckedButton;
         private int _selectedRecipientId;
         public ObservableCollection<User> Users { get; set; } = new ObservableCollection<User>();
+        private ObservableCollection<User> _displayedUsers = new ObservableCollection<User>();
+        private List<User> _allUsers = new List<User>();
+        private int _currentIndex = 0;
+        private Grid _selectedGrid; // Field to store the reference to the currently selected Grid
 
 
         public MainWindow()
         {
             InitializeComponent();
-            _context = new GymContext();
             LoadUserProfile(); // Load user profile on startup
             ShowMembersView(); // Default view
             LoadUsers(); // Load users into the ComboBox
-            DeactivateExpiredMemberships();
+            var StartView = new Dashboardview(); // Assuming ChargesView is a UserControl
+            MainContentControl.Content = StartView;
 
         }
 
@@ -260,9 +265,14 @@ namespace SportFactoryApp
             {
                 using (var context = new GymContext())
                 {
-                    var users = context.Users.Where(u => u.Id != LogSession.CurrentUserId).ToList();
-                    users.Insert(0, new User { Id = 0, FirstName = " " });
-                    UserList.ItemsSource = users;
+                    _allUsers = context.Users.Where(u => u.Id != LogSession.CurrentUserId).ToList();
+                    //_allUsers.Insert(0, new User { Id = 0, FirstName = " " });
+
+                    // Initialize with the first three users
+                    UpdateDisplayedUsers();
+
+                    // Set ItemsSource directly here
+                    UserList.ItemsSource = _displayedUsers;
                 }
             }
             catch (Exception ex)
@@ -275,19 +285,105 @@ namespace SportFactoryApp
         {
             if (sender is FrameworkElement element && element.DataContext is User selectedUser)
             {
-                if (selectedUser.Id != 0)
+                // Check if the same user is selected again
+                if (selectedUser.Id == _selectedRecipientId)
                 {
+                    // Reset the previously selected Grid to default state
+                    if (_selectedGrid != null)
+                    {
+                        _selectedGrid.Margin = new Thickness(0); // Reset margin to default
+                        _selectedGrid.Height = 50; // Reset height to default
+                    }
+
+                    // Toggle visibility for chat components if the same user is selected
+                    bool isVisible = ChatHistoryListBox.Visibility == Visibility.Visible;
+
+                    ChatHistoryListBox.Visibility = isVisible ? Visibility.Collapsed : Visibility.Visible;
+                    ChatInputPanel.Visibility = isVisible ? Visibility.Collapsed : Visibility.Visible;
+                    _selectedRecipientId = -2;
+
+                }
+                else
+                {
+                    // Reset previously selected Grid to default state
+                    if (_selectedGrid != null)
+                    {
+                        _selectedGrid.Margin = new Thickness(0); // Reset margin to default
+                        _selectedGrid.Height = 50; // Reset height to default
+                    }
+
+                    // Set the new selected user ID and show chat components
                     _selectedRecipientId = selectedUser.Id;
                     ChatHistoryListBox.Visibility = Visibility.Visible;
                     ChatInputPanel.Visibility = Visibility.Visible;
                     LoadChatHistory();
-                }
-                else
-                {
-                    ChatHistoryListBox.Visibility = Visibility.Collapsed;
-                    ChatInputPanel.Visibility = Visibility.Collapsed;
+
+
+                    // Find the specific Grid associated with this clicked item
+                    var grid = FindVisualChild<Grid>(element);
+                    if (grid != null)
+                    {
+                        // Change properties of the newly selected Grid
+                        grid.Margin = new Thickness(10); // Set margin as needed
+                        grid.Height = 60; // Change height as needed
+                        _selectedGrid = grid; // Store the reference to the newly selected Grid
+                    }
+
+
+
                 }
             }
+        }
+
+        private void CenterSelectedUser(User selectedUser)
+        {
+            // Find the index of the selected user
+            int selectedIndex = _allUsers.IndexOf(selectedUser);
+            _currentIndex = Math.Max(0, Math.Min(selectedIndex - 1, _allUsers.Count - 3));
+
+
+        }
+
+        private T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T typedChild)
+                {
+                    return typedChild;
+                }
+                var childOfChild = FindVisualChild<T>(child);
+                if (childOfChild != null)
+                {
+                    return childOfChild;
+                }
+            }
+            return null;
+        }
+        // Update the displayed users without relying on INotifyPropertyChanged
+        private void UpdateDisplayedUsers()
+        {
+            _displayedUsers.Clear();
+            for (int i = 0; i < 3; i++)
+            {
+                int index = (_currentIndex + i) % _allUsers.Count;
+                _displayedUsers.Add(_allUsers[index]);
+
+
+            }
+        }
+
+        private void ScrollRight_Click(object sender, RoutedEventArgs e)
+        {
+            _currentIndex = (_currentIndex + 1) % _allUsers.Count;
+            UpdateDisplayedUsers();
+        }
+
+        private void ScrollLeft_Click(object sender, RoutedEventArgs e)
+        {
+            _currentIndex = (_currentIndex - 1 + _allUsers.Count) % _allUsers.Count;
+            UpdateDisplayedUsers();
         }
         // Event handlers for CheckBox to show/hide chat components
         private void ToggleVisibilityCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -483,7 +579,6 @@ namespace SportFactoryApp
 
             return foundChild;
         }
-
         private void DeactivateExpiredMemberships()
         {
             DateTime today = DateTime.Now;
@@ -517,7 +612,7 @@ namespace SportFactoryApp
             LogoutPopup.IsOpen = false;
             this.Close();
             loginWindow.Show();
-             // Close the current window if applicable
+            // Close the current window if applicable
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -535,3 +630,8 @@ namespace SportFactoryApp
 
     }
 }
+
+
+
+
+    

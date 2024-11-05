@@ -114,9 +114,9 @@
                     <StackPanel HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
                                 <Image Source="pack://application:,,,/Images/icons8-carte-de-membre-94.png" Width="30"/>
-                            <TextBlock Text="Nbr d'abonnement" FontSize="12" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                            <TextBlock Text="Nbr d'abonnement" FontSize="12" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
                         </StackPanel>
-                        <TextBlock x:Name="MembershipCountTextBlock" FontSize="22" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="MembershipCountTextBlock" FontSize="35" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
 
@@ -136,9 +136,9 @@
                     <StackPanel HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="pack://application:,,,/Images/icons8-gym-94.png" Width="30"/>
-                            <TextBlock Text="Nbr des seances" FontSize="12" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                            <TextBlock Text="Nbr des seances" FontSize="12" FontWeight="Bold" Foreground="#aefe14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
                         </StackPanel>
-                        <TextBlock  x:Name="NbSeancesTextBlock" FontSize="22" FontWeight="Bold" Margin="10" Foreground="#aefe14" HorizontalAlignment="Center"/>
+                        <TextBlock  x:Name="NbSeancesTextBlock" FontSize="35" FontWeight="Bold"  Foreground="#aefe14" HorizontalAlignment="Center"/>
                         <!-- Placeholder for session data -->
                     </StackPanel>
                 </Border>

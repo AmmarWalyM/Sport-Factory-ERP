@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "E9PKcDWRHGM1HNg8mZXLtX13GzGtpkCoEk2NFAvzwZCsbGtynPiDxn1GEzgoMiBwDxQ9pnyKrJxxP29PSQZTUA==",
+  "dgSpecHash": "Ntw1J6G7dZBakhds824LFuP1s4QLL9WJJzhOuEhDbPpvhAKCx9NMPNDu2K4163iU4wJWSAVI7ILiEEPO2uCexQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\21650\\Downloads\\Sport-Factory-ERP-RayenWaly\\Sport-Factory-ERP-RayenWaly\\SportFactoryApp\\SportFactoryApp.csproj",
+  "projectFilePath": "C:\\Users\\21650\\Desktop\\Sport-Factory-ERP-RayenWaly\\Sport-Factory-ERP-RayenWaly\\SportFactoryApp\\SportFactoryApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\21650\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\21650\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

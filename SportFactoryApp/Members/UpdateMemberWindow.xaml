@@ -106,7 +106,7 @@ materialDesign:HintAssist.Hint="Date de Naissance"
 materialDesign:HintAssist.IsFloating="True"
 Width="400"
 Margin="0"
-        ></DatePicker>
+Language="fr-FR"        ></DatePicker>
                 </Border>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

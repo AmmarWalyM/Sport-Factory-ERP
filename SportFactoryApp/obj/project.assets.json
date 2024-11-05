@@ -5538,11 +5538,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\21650\\Downloads\\Sport-Factory-ERP-RayenWaly\\Sport-Factory-ERP-RayenWaly\\SportFactoryApp\\SportFactoryApp.csproj",
+      "projectUniqueName": "C:\\Users\\21650\\Desktop\\Sport-Factory-ERP-RayenWaly\\Sport-Factory-ERP-RayenWaly\\SportFactoryApp\\SportFactoryApp.csproj",
       "projectName": "SportFactoryApp",
-      "projectPath": "C:\\Users\\21650\\Downloads\\Sport-Factory-ERP-RayenWaly\\Sport-Factory-ERP-RayenWaly\\SportFactoryApp\\SportFactoryApp.csproj",
+      "projectPath": "C:\\Users\\21650\\Desktop\\Sport-Factory-ERP-RayenWaly\\Sport-Factory-ERP-RayenWaly\\SportFactoryApp\\SportFactoryApp.csproj",
       "packagesPath": "C:\\Users\\21650\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\21650\\Downloads\\Sport-Factory-ERP-RayenWaly\\Sport-Factory-ERP-RayenWaly\\SportFactoryApp\\obj\\",
+      "outputPath": "C:\\Users\\21650\\Desktop\\Sport-Factory-ERP-RayenWaly\\Sport-Factory-ERP-RayenWaly\\SportFactoryApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

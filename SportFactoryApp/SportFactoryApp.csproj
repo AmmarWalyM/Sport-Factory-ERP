@@ -28,6 +28,7 @@
     <None Remove="Images\icons8-ajouter-94.png" />
     <None Remove="Images\icons8-bill-30.png" />
     <None Remove="Images\icons8-cadeau-94.png" />
+    <None Remove="Images\icons8-calendrier-94.png" />
     <None Remove="Images\icons8-carte-de-membre-30.png" />
     <None Remove="Images\icons8-carte-de-membre-94.png" />
     <None Remove="Images\icons8-check-mark-94.png" />
@@ -146,6 +147,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-bill-30.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\icons8-calendrier-94.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\icons8-carte-de-membre-30.png">

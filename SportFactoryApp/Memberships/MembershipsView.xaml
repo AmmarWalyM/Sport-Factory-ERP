@@ -255,7 +255,7 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <!-- Circle for Initials -->
                                 <Grid Width="40" Height="40" VerticalAlignment="Center" Margin="10,0,0,0">
-                                    <Ellipse Fill="#FF007ACC" Stroke="Transparent" Width="40" Height="40" />
+                                    <Ellipse Fill="Black" Stroke="Transparent" Width="40" Height="40" />
                                     <TextBlock FontSize="16" 
                                        FontWeight="Bold"
                                        Foreground="White"

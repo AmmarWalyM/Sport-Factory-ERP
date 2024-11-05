@@ -34,7 +34,7 @@ namespace SportFactoryApp.Members
         // Load Members from the database and display them in the ListBox
         private void LoadMembers()
         {
-            var members = _context.Members.ToList();
+            var members = _context.Members.OrderByDescending(m => m.StartDate).ToList();
             MembersDataGrid.ItemsSource = members;
 
             // Calculate total members

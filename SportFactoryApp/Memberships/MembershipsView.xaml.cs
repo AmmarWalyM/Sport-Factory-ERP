@@ -34,12 +34,13 @@ namespace SportFactoryApp.Memberships
             {
                 memberships = _context.Membershipss
                                      .Include(m => m.Member)
-                                     .Where(m => m.Status == "Active") // Assuming you have an IsActive property
+                                     .Where(m => m.Status == "Active")
+                                     .OrderByDescending(m => m.Date)// Assuming you have an IsActive property
                                      .ToList();
             }
             else
             {
-                memberships = _context.Membershipss.Include(m => m.Member).ToList();
+                memberships = _context.Membershipss.Include(m => m.Member).OrderByDescending(m => m.Date).ToList();
             }
 
             MembershipDataGrid.ItemsSource = memberships;
@@ -55,22 +56,6 @@ namespace SportFactoryApp.Memberships
             Calculate12SessionUsageText.Text = twelveSessionUsage.ToString();
         }
 
-        /*private void LoadMemberships()
-        {
-            var memberships = _context.Membershipss.Include(m => m.Member).ToList();
-            var sessions = _context.Sessions.Include(s => s.Membership).ToList();
-
-            MembershipDataGrid.ItemsSource = memberships; // Update this line
-
-            int newMembershipCount = CountNewMembershipsThisMonth(memberships);
-            CountNewMembershipsThisMonthText.Text = newMembershipCount.ToString();
-
-            decimal monthlyRevenue = CalculateMonthlyRevenue(memberships);
-            CalculateMonthlyRevenueText.Text = monthlyRevenue.ToString()+"DT"; ; 
-
-            int twelveSessionUsage = Calculate12SessionUsage(sessions, memberships);
-            Calculate12SessionUsageText.Text = twelveSessionUsage.ToString(); // Display the count
-        }*/
 
         // Load Members from the database and display them in the ListBox
 
@@ -130,65 +115,13 @@ namespace SportFactoryApp.Memberships
         }
 
 
-
-        // Add Member Event Handler
-        /* private void AddMember_Click(object sender, RoutedEventArgs e)
-         {
-             var addMemberWindow = new AddMemberWindow();
-             if (addMemberWindow.ShowDialog() == true) // If user confirms addition
-             {
-                 var newMember = addMemberWindow.NewMember;
-                 _context.Members.Add(newMember);
-                 _context.SaveChanges();
-                 //LoadMembers(); // Refresh the list
-
-             }
-         }*/
-
-        // Update Member Event Handler
-        /*private void UpdateMember_Click(object sender, RoutedEventArgs e)
-        {
-            if (MembersDataGrid.SelectedItem is Member selectedMember)
-            {
-                var updateMemberWindow = new UpdateMemberWindow(selectedMember);
-                if (updateMemberWindow.ShowDialog() == true) // If user confirms update
-                {
-                    _context.SaveChanges(); // Save changes made in the update window
-                    LoadMembers(); // Refresh the list
-                    LoadMemberships();
-                }
-            }
-            else
-            {
-                MessageBox.Show("Please select a member to update.");
-            }
-        }
-
-        // Delete Member Event Handler
-        private void DeleteMember_Click(object sender, RoutedEventArgs e)
-        {
-            if (MembersDataGrid.SelectedItem is Member selectedMember)
-            {
-                _context.Members.Remove(selectedMember);
-                _context.SaveChanges();
-                LoadMembers(); // Refresh the list
-                LoadMemberships();
-            }
-            else
-            {
-                MessageBox.Show("Please select a member to delete.");
-            }
-        }*/
-
         // Add Membership Event Handler
         private void AddMembership_Click(object sender, RoutedEventArgs e)
         {
             var addMembershipWindow = new AddMembershipWindow();
             if (addMembershipWindow.ShowDialog() == true) // If user confirms addition
             {
-                //var newMembership = addMembershipWindow.NewMembership;
-                //_context.Membershipss.Add(newMembership);
-                //_context.SaveChanges();
+                
                 LoadMemberships(); // Refresh the list
             }
         }
@@ -225,17 +158,7 @@ namespace SportFactoryApp.Memberships
                 MessageBox.Show("Please select a membership to delete.");
             }
         }
-        /*private void MembersDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // You can implement any logic you want to execute when a member is selected
-            // For example, you might want to display details of the selected member:
-            if (MembersDataGrid.SelectedItem is Member selectedMember)
-            {
-                // Display details or perform any actions with the selected member
-                // For example, you might load the memberships associated with the selected member
-                // LoadMembershipsForMember(selectedMember); // Optional method to implement
-            }
-        }*/
+       
 
         private void MembershipsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) // Update this line
         {
@@ -244,46 +167,7 @@ namespace SportFactoryApp.Memberships
                 // Implement any logic you want when a membership is selected
             }
         }
-        /* private void ShowMemberProfile_Click(object sender, RoutedEventArgs e)
-         {
-             // Ensure the _mainWindow instance is available
-             if (_mainWindow == null)
-             {
-                 MessageBox.Show("Main window instance is not available.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                 return;
-             }
-
-             // Check if a member is selected in the DataGrid
-             if (MembersDataGrid.SelectedItem is Member selectedMember)
-             {
-                 // Fetch member details based on the selected member ID
-                 var member = GetMemberById(selectedMember.MemberId);
-
-                 if (member != null)
-                 {
-                     try
-                     {
-                         // Create the MemberProfileView UserControl
-                         var memberProfileView = new MemberProfileView(member);
-
-                         // Set the UserControl to MainContentControl in MainWindow
-                         _mainWindow.MainContentControl.Content = memberProfileView;
-                     }
-                     catch (Exception ex)
-                     {
-                         MessageBox.Show($"An error occurred while displaying member profile: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                     }
-                 }
-                 else
-                 {
-                     MessageBox.Show("Member not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                 }
-             }
-             else
-             {
-                 MessageBox.Show("Please select a member.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-             }
-         }*/
+      
         private void MembershipDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // You can implement any logic you want to execute when a member is selected

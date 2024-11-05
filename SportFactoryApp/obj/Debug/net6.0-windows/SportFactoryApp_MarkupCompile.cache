@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\
+C:\Users\21650\Desktop\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\obj\Debug\net6.0-windows\
 SportFactoryApp
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\21650\Downloads\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\App.xaml
-13-1594501143
+C:\Users\21650\Desktop\Sport-Factory-ERP-RayenWaly\Sport-Factory-ERP-RayenWaly\SportFactoryApp\App.xaml
+14282505291
 1-560131193
-36741069735
+40-9103536
 290-54073539
-Dashboard\Dashboardview.xaml;Dashboard\InfoCard.xaml;Dashboard\TopMemberCard.xaml;LoadingWindow.xaml;LoginWindow.xaml;MainWindow.xaml;Memberships\AddMembershipWindow.xaml;Memberships\MembershipsView.xaml;Memberships\UpdateMembershipWindow.xaml;Members\AddMemberWindow.xaml;Members\MembersView.xaml;Members\UpdateMemberWindow.xaml;Profile\MemberProfileView.xaml;
+Dashboard\Dashboardview.xaml;Dashboard\InfoCard.xaml;Dashboard\Legends.xaml;Dashboard\TopMemberCard.xaml;LoadingWindow.xaml;LoginWindow.xaml;MainWindow.xaml;Memberships\AddMembershipWindow.xaml;Memberships\MembershipsView.xaml;Memberships\UpdateMembershipWindow.xaml;Members\AddMemberWindow.xaml;Members\MembersView.xaml;Members\UpdateMemberWindow.xaml;Profile\MemberProfileView.xaml;
 
 False
 

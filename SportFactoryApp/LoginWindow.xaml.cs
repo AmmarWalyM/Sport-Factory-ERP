@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ControlzEx.Standard;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -7,8 +8,10 @@ using System.Windows.Media.Animation; // Add this for Storyboard
 
 namespace SportFactoryApp
 {
+   
     public partial class LoginWindow : Window
     {
+         private bool isLoggingIn = false;
         public LoginWindow()
         {
             InitializeComponent();
@@ -50,6 +53,13 @@ namespace SportFactoryApp
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            // Check if we're already logging in
+            if (isLoggingIn)
+            {
+                return; // If true, exit early to prevent multiple logins
+            }
+
+            isLoggingIn = true; // Set the flag to true
             var username = UsernameTextBox.Text;
             var password = PasswordBox.Password;
 
@@ -76,11 +86,13 @@ namespace SportFactoryApp
             else
             {
                 // Show an error message if validation fails
-                MessageBox.Show("Invalid username or password. Please try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Nom d'utilisateur ou mot de passe invalide. Veuillez réessayer.", "Échec de la connexion", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            // Re-enable the login button
-            LoginButton.IsEnabled = true;
+            // Re-enable the login button after a delay
+            await Task.Delay(5000); // Delay for 5 seconds
+            LoginButton.IsEnabled = true; // Re-enable the login button
+            isLoggingIn = false; // Reset the flag after the delay
         }
 
 
@@ -139,5 +151,13 @@ namespace SportFactoryApp
         {
             // Optionally, you can perform additional cleanup here
         }
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && LoginButton.IsEnabled)
+            {
+                LoginButton_Click(LoginButton, new RoutedEventArgs());
+            }
+        }
+
     }
 }

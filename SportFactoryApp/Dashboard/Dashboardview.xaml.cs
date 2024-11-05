@@ -27,9 +27,11 @@ namespace SportFactoryApp.Dashboard
                 OnPropertyChanged(nameof(DateLabels));
             }
         }
+        public ObservableCollection<Session> FilteredSessions { get; set; }
         private GymContext _context;
         public ObservableCollection<Member> Members { get; set; }
         public ObservableCollection<Membership> Memberships { get; set; }
+        public ObservableCollection<Session> Sessions { get; set; }
 
         // Properties for Lower and Upper Bound
         private double _lowerBound;
@@ -45,6 +47,7 @@ namespace SportFactoryApp.Dashboard
                     _lowerBound = value;
                     OnPropertyChanged(nameof(LowerBound));
                     UpdateSelectedDatesFromBounds();
+                    PopulatePieCharts();
                 }
             }
         }
@@ -59,10 +62,12 @@ namespace SportFactoryApp.Dashboard
                     _upperBound = value;
                     OnPropertyChanged(nameof(UpperBound));
                     UpdateSelectedDatesFromBounds();
+                    PopulatePieCharts();
+
                 }
             }
         }
-
+    
         private int _distinctMembersCount;
         public int DistinctMembersCount
         {
@@ -158,6 +163,16 @@ namespace SportFactoryApp.Dashboard
             }
         }
 
+        public double PreviousRangeTotalSales { get; set; }
+
+        public int PreviousRangeDistinctMembersCount { get; set; }
+
+        public int PreviousRangeDistinctMembershipsCount { get; set; }
+        public double CurrentWeekTotalSales { get; set; }
+       
+        public int CurrentWeekDistinctMembersCount { get; set; }
+
+        public int CurrentWeekDistinctMembershipsCount { get; set; }
 
         private double _maximumDateInOADate;
         public double MaximumDateInOADate
@@ -199,6 +214,7 @@ namespace SportFactoryApp.Dashboard
         private void LoadData()
         {
             Memberships = new ObservableCollection<Membership>(_context.Membershipss.ToList());
+            Sessions = new ObservableCollection<Session>(_context.Sessions.ToList());
             Members = new ObservableCollection<Member>(_context.Members.ToList());
             Memberships = new ObservableCollection<Membership>(
        _context.Membershipss.Include(m => m.Member).ToList()
@@ -250,29 +266,65 @@ namespace SportFactoryApp.Dashboard
 
             Debug.WriteLine($"Filtered memberships count: {filteredMemberships.Count}");
 
-            var histogramValues = new ChartValues<decimal> { 0, 0, 0, 0, 0, 0, 0 };
+            // Initialize two counts for each day of the week for "Seance Unique" and "Not Seance Unique"
+            var uniqueCounts = new ChartValues<decimal> { 0, 0, 0, 0, 0, 0, 0 }; // Prices for "Seance Unique"
+            var nonUniqueCounts = new ChartValues<decimal> { 0, 0, 0, 0, 0, 0, 0 }; // Prices for not "Seance Unique"
+
             foreach (var membership in filteredMemberships)
             {
-                var dayOfWeek = membership.Date.DayOfWeek;
-                int index = ((int)dayOfWeek + 6) % 7;
-                histogramValues[index] += membership.Price;
+                var membershipDay = membership.Date.DayOfWeek;
+                int memberIndex = ((int)membershipDay + 6) % 7; // Adjust index to start from Monday
+
+                // Check the type of membership and categorize accordingly
+                if (membership.Type == "Seance Unique")
+                {
+                    uniqueCounts[memberIndex] += membership.Price; // Accumulate price for "Seance Unique"
+                }
+                else
+                {
+                    nonUniqueCounts[memberIndex] += membership.Price; // Accumulate price for not "Seance Unique"
+                }
+
+              
             }
+
+            // Update the SeriesCollection to include the new price series
             HistogramSeries = new SeriesCollection
 {
     new ColumnSeries
     {
-        Title = "Total Sales",
-        Values = histogramValues,
-        PointGeometry = DefaultGeometries.Circle,
-        Stroke = new SolidColorBrush(Color.FromRgb(0, 122, 204)), // Blue color
-        //Fill = new SolidColorBrush(Color.FromRgb(0, 122, 204)), // Same blue color for fill
-
-        
-        StrokeThickness = 0,
-        MaxColumnWidth = 30,
-        ColumnPadding = 5
+        Title = "Seance Unique",
+        Values = uniqueCounts,
+        MaxColumnWidth = 10,
+        ColumnPadding = 5,
+        Fill = new LinearGradientBrush
+        {
+            GradientStops = new GradientStopCollection
+            {
+             
+                new GradientStop(Color.FromRgb(173, 222, 52), 0),
+                new GradientStop(Color.FromRgb(255, 255, 255), 1)
+            }
+        }
+    },
+    new ColumnSeries
+    {
+        Title = "12-Seances",
+        Values = nonUniqueCounts,
+        MaxColumnWidth = 10,
+        ColumnPadding = 5,
+        Fill = new LinearGradientBrush
+        {
+            GradientStops = new GradientStopCollection
+            {
+                  new GradientStop(Color.FromRgb(27, 73, 60), 0),
+                new GradientStop(Color.FromRgb(255, 255, 255), 1)
+            }
+        }
     }
+   
 };
+
 
             // Create the line chart values (grouping by date and summing up the sales for each date)
             var lineChartValues = new ChartValues<double>();
@@ -290,18 +342,27 @@ namespace SportFactoryApp.Dashboard
             }
 
             // Create a series for the line chart
-            LineChartSeries = new SeriesCollection
+var lineSeries1 = new LineSeries
+{
+    Title = "Revenue en Dinars",
+    Values = lineChartValues,
+    Fill = Brushes.Transparent,
+    StrokeThickness = 3,
+    PointGeometrySize = 0,
+    Stroke = new LinearGradientBrush
     {
-        new LineSeries
+        GradientStops = new GradientStopCollection
         {
-            Title = "Sales Over Time",
-            Values = lineChartValues,
-            PointGeometry = DefaultGeometries.Circle,
-            Stroke = new SolidColorBrush(Color.FromRgb(144, 238, 144)),
-            Fill = Brushes.Transparent,
-            PointGeometrySize = 5
+            new GradientStop(Colors.White, 0.06),
+            new GradientStop(Color.FromRgb(248, 163, 63), 0.5),
+            new GradientStop(Colors.White, 0.93)
         }
-    };
+    }
+};
+
+
+// Adding both series to the chart's Series collection
+LineChartSeries = new SeriesCollection { lineSeries1};
 
             TotalSales = (double)filteredMemberships.Sum(m => m.Price);
             DistinctMembersCount = filteredMemberships.Select(m => m.MemberId).Distinct().Count();
@@ -316,17 +377,69 @@ namespace SportFactoryApp.Dashboard
 
             var activeCount = filteredMemberships.Count(m => m.Status == "Active");
             var inactiveCount = filteredMemberships.Count(m => m.Status != "Active");
+            DateTime upperBoundDate = DateTime.FromOADate(UpperBound);
+            DateTime LowerBoundDate = DateTime.FromOADate(LowerBound);
+            DateTime previousWeekEnd = upperBoundDate.AddDays(-7);
+            DateTime previousWeekStart = upperBoundDate.AddDays(-14);
 
-           
+            DateTime CurrentWeekEnd = upperBoundDate.AddDays(-7);
 
-    var types = filteredMemberships.GroupBy(m => m.Type)
-                .Select(g => new { Type = g.Key, Count = g.Count() })
+            // Filter memberships for the previous week's range
+            var previousWeekMemberships = Memberships
+                .Where(m => m.Date >= previousWeekStart && m.Date <= previousWeekEnd)
                 .ToList();
 
+            var currentWeekMemberships = Memberships
+                  .Where(m => m.Date >= CurrentWeekEnd && m.Date <= upperBoundDate)
+                  .ToList();
+            
+            CurrentWeekTotalSales = (double)currentWeekMemberships.Sum(m => m.Price);
+            CurrentWeekDistinctMembersCount = currentWeekMemberships.Select(m => m.MemberId).Distinct().Count();
+            CurrentWeekDistinctMembershipsCount = currentWeekMemberships.Select(m => m.Type).Distinct().Count();
+
+            PreviousRangeTotalSales = (double)previousWeekMemberships.Sum(m => m.Price);
+            PreviousRangeDistinctMembersCount = previousWeekMemberships.Select(m => m.MemberId).Distinct().Count();
+            PreviousRangeDistinctMembershipsCount = previousWeekMemberships.Select(m => m.Type).Distinct().Count();
+
+            // Debug output
+            Console.WriteLine($"PreviousRangeTotalSales: {PreviousRangeTotalSales}");
+            Console.WriteLine($"PreviousRangeDistinctMembersCount: {PreviousRangeDistinctMembersCount}");
+            Console.WriteLine($"PreviousRangeDistinctMembershipsCount: {PreviousRangeDistinctMembershipsCount}");
+
+            // Notify the UI about updated properties
+            OnPropertyChanged(nameof(PreviousRangeTotalSales));
+            OnPropertyChanged(nameof(PreviousRangeDistinctMembersCount));
+            OnPropertyChanged(nameof(PreviousRangeDistinctMembershipsCount));
+            OnPropertyChanged(nameof(CurrentWeekTotalSales));
+            OnPropertyChanged(nameof(CurrentWeekDistinctMembersCount));
+            OnPropertyChanged(nameof(CurrentWeekDistinctMembershipsCount));
+
+
+
+            var types = filteredMemberships.GroupBy(m => m.Type)
+                .Select(g => new { Type = g.Key, Count = g.Count() })
+                .ToList();
+            var colors = new List<SolidColorBrush>
+{
+    new SolidColorBrush(Color.FromRgb(174, 254, 20)), // First color
+    new SolidColorBrush(Color.FromRgb(0, 0, 0))  // Second color
+};
+
+            // Clear any existing series to avoid duplicates
             PieChart2.Series = new SeriesCollection();
+
+            int colorIndex = 0;
             foreach (var type in types)
             {
-                PieChart2.Series.Add(new PieSeries { Title = type.Type, Values = new ChartValues<int> { type.Count } });
+                // Create a new PieSeries with the specific color from the colors list
+                PieChart2.Series.Add(new PieSeries
+                {
+                    Title = type.Type,
+                    Values = new ChartValues<int> { type.Count },
+                    DataLabels = true,
+                    Fill = colors[colorIndex % colors.Count]  // Apply color based on the index
+                });
+                colorIndex++;
             }
         }
 
@@ -337,6 +450,7 @@ namespace SportFactoryApp.Dashboard
             UpperBound = DateTime.Now.ToOADate();
             UpdateDataGrid();
             UpdateTopMembersDataGrid();
+            UpdateSelectedDatesFromBounds();
         }
 
         private void Last30Days_Click(object sender, RoutedEventArgs e)
@@ -345,6 +459,7 @@ namespace SportFactoryApp.Dashboard
             UpperBound = DateTime.Now.ToOADate();
             UpdateDataGrid();
             UpdateTopMembersDataGrid();
+            UpdateSelectedDatesFromBounds();
         }
 
         private void UntilToday_Click(object sender, RoutedEventArgs e)
@@ -353,6 +468,7 @@ namespace SportFactoryApp.Dashboard
             UpperBound = DateTime.Now.ToOADate();
             UpdateDataGrid();
             UpdateTopMembersDataGrid();
+            UpdateSelectedDatesFromBounds();
 
 
         }
@@ -376,6 +492,7 @@ namespace SportFactoryApp.Dashboard
             var filteredMembers = _context.Members
                 .Where(m => topMemberIds.Contains(m.MemberId))
                 .ToList();
+     
 
             var dataForTopMemberCards = topMembers
                 .Join(filteredMembers,
@@ -401,7 +518,24 @@ namespace SportFactoryApp.Dashboard
                 DynamicMemberContainer.Children.Add(memberCard);
             }
         }
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is DatePicker datePicker && datePicker.SelectedDate.HasValue)
+            {
+                DateTime selectedDate = datePicker.SelectedDate.Value;
 
+                if (datePicker == LowerBoundDatePicker)
+                {
+                    LowerBound = selectedDate.ToOADate();
+                }
+                else if (datePicker == UpperBoundDatePicker)
+                {
+                    UpperBound = selectedDate.ToOADate();
+                }
+
+                UpdateSelectedDatesFromBounds(); // Updates any other properties dependent on these bounds
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
@@ -414,8 +548,54 @@ namespace SportFactoryApp.Dashboard
                             m.Date <= DateTime.FromOADate(UpperBound))
                 .ToList();
 
+            var sessions = _context.Sessions
+             .Include(s => s.Member)
+             .Include(s => s.Membership)
+             .ToList();
+
+            var FilteredSessionss = sessions
+               .Where(m => m.SessionDate >= DateTime.FromOADate(LowerBound) &&
+                           m.SessionDate <= DateTime.FromOADate(UpperBound))
+               .ToList();
+            // Assign the sessions to the FilteredSessions collection
+            FilteredSessions = new ObservableCollection<Session>(FilteredSessionss);
+
             FilteredMembers = new ObservableCollection<Membership>(filteredMemberships);
         }
+        private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender == ToggleButtonSessions)
+            {
+                ToggleButtonMembers.IsChecked = false; // Uncheck the Members button
+                SessionsDataGrid.Visibility = Visibility.Visible; // Show Sessions DataGrid
+                MembersDataGrid.Visibility = Visibility.Collapsed; // Hide Members DataGrid
+            }
+            else if (sender == ToggleButtonMembers)
+            {
+                ToggleButtonSessions.IsChecked = false; // Uncheck the Sessions button
+                MembersDataGrid.Visibility = Visibility.Visible; // Show Members DataGrid
+                SessionsDataGrid.Visibility = Visibility.Collapsed; // Hide Sessions DataGrid
+            }
+        }
+
+        private void ToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (sender == ToggleButtonSessions)
+            {
+                ToggleButtonMembers.IsChecked = true; // Recheck the Members button
+                MembersDataGrid.Visibility = Visibility.Visible; // Show Members DataGrid
+                SessionsDataGrid.Visibility = Visibility.Collapsed; // Hide Sessions DataGrid
+            }
+            else if (sender == ToggleButtonMembers)
+            {
+                ToggleButtonSessions.IsChecked = true; // Recheck the Sessions button
+                SessionsDataGrid.Visibility = Visibility.Visible; // Show Sessions DataGrid
+                MembersDataGrid.Visibility = Visibility.Collapsed; // Hide Members DataGrid
+            }
+        }
+
+
+
     }
 
 }

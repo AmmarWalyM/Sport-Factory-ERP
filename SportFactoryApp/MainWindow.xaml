@@ -6,6 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:SportFactoryApp"
         xmlns:local1="clr-namespace:SportFactoryApp.Converters"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         
         
         mc:Ignorable="d"
@@ -15,57 +16,62 @@
         ResizeMode="NoResize" 
         WindowState="Maximized">
     <Window.Background>
-        <ImageBrush ImageSource="pack://application:,,,/Images/MWBG1.png" 
-                    Stretch="UniformToFill" 
-                    Opacity="1"/>
+        <SolidColorBrush Color="WhiteSmoke"></SolidColorBrush>
+
     </Window.Background>
 
     <Window.Resources>
 
-        <local1:FirstLetterMultiConverter x:Key="FirstLetterMultiConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <!-- You can add more dictionaries here if needed -->
+            </ResourceDictionary.MergedDictionaries>
+
+            <local1:FirstLetterMultiConverter x:Key="FirstLetterMultiConverter"/>
 
 
-        <Style x:Key="SidebarButtonStyle" TargetType="ToggleButton">
-            <Setter Property="FontFamily" Value="Arial"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="Background" Value="White"></Setter>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="BorderBrush" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Border CornerRadius="20" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Style x:Key="SidebarButtonStyle" TargetType="ToggleButton">
+                <Setter Property="FontFamily" Value="Arial"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Padding" Value="10,5"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="BorderBrush" Value="#CCCCCC"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border CornerRadius="20" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
 
-            <!-- Triggers for mouse hover and pressed states -->
-            <Style.Triggers>
-                <!-- Hover -->
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Black"/>
-                    <Setter Property="Foreground" Value="#FFFFFF"/>
-                </Trigger>
+                <!-- Triggers for mouse hover and pressed states -->
+                <Style.Triggers>
+                    <!-- Hover -->
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="Black"/>
+                        <Setter Property="Foreground" Value="#FFFFFF"/>
+                    </Trigger>
 
-                <!-- Pressed/Checked State -->
-                <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Background" Value="Black"/>
-                    <Setter Property="Foreground" Value="#FFFFFF"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+                    <!-- Pressed/Checked State -->
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="Background" Value="Black"/>
+                        <Setter Property="Foreground" Value="#FFFFFF"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
 
-       
 
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid >
@@ -77,9 +83,9 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
-            <!-- Sidebar -->
             <ColumnDefinition Width="*"/>
+            <!-- Sidebar -->
+            <ColumnDefinition Width="4*"/>
             <!-- Main Content Area -->
         </Grid.ColumnDefinitions>
 
@@ -119,7 +125,7 @@
         </Grid>
 
         <!-- Top Bar (Search, Notification, Profile) -->
-        <Grid Grid.Row="0" Grid.Column="1" Background="Transparent" Height="50" VerticalAlignment="Top" Margin="0,40,0,0">
+        <Grid Grid.Row="0" Grid.Column="1" Background="Transparent" Height="auto" VerticalAlignment="Top" Margin="0,40,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -128,10 +134,11 @@
 
 
             <!-- Search Bar with AutoComplete -->
-            <Border CornerRadius="15" Background="White" Grid.Column="0" Margin="20,0,50,5" Padding="10" HorizontalAlignment="left" Width="400">
+            <Border CornerRadius="15" Background="White" Grid.Column="0"  Padding="10" HorizontalAlignment="left" Width="400" Margin="45,0,0,0">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -140,16 +147,16 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Search Icon -->
-                    <Image Source="pack://application:,,,/Images/icons8-chercher-30.png" Width="20" Height="20" HorizontalAlignment="Center" Grid.Column="0" Margin="5,0"/>
+                    <Image Source="pack://application:,,,/Images/icons8-chercher-30.png" Width="20" Height="20" VerticalAlignment="Top" Grid.Column="0" Margin="5,5,5,0" Grid.RowSpan="2"/>
 
                     <!-- Search TextBox -->
-                    <xctk:WatermarkTextBox x:Name="SearchTextBox" Grid.Column="1" Height="30" VerticalAlignment="Center" 
+                    <xctk:WatermarkTextBox x:Name="SearchTextBox" Grid.Column="1" Height="30" VerticalAlignment="Top" 
                                        Watermark="Rechercher..." BorderThickness="0" Padding="5,5" 
-                                       TextChanged="SearchTextBox_TextChanged" Background="White"
+                                       TextChanged="SearchTextBox_TextChanged" Background="White" Grid.RowSpan="2"
                                            />
 
                     <Popup x:Name="SearchResultPopup" PlacementTarget="{Binding ElementName=SearchTextBox}" 
-       StaysOpen="False" AllowsTransparency="True" Width="250" Height="Auto">
+       StaysOpen="False" AllowsTransparency="True" Width="250" Height="Auto" Grid.ColumnSpan="2" Margin="0,0,130,0" Grid.RowSpan="2">
                         <Border Background="White" BorderThickness="0" CornerRadius="10" Padding="10" 
             >
                             <ListBox x:Name="SearchResultListBox" 
@@ -198,23 +205,22 @@
                             <TextBlock Text="Yeziha?" FontWeight="Bold" HorizontalAlignment="Center" FontSize="16"/>
                             <StackPanel Orientation="Horizontal">
                                 <Border CornerRadius="15" Background="Black"  BorderBrush="Transparent" BorderThickness="0" Margin="5">
-                                <Button  Click="LogoutButton_Click" Background="Transparent" Padding="5" BorderThickness="0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="pack://application:,,,/Images/icons8-sortie-48.png" Width="20"></Image>
-                                        <TextBlock Text="Yeziha" FontWeight="Bold" FontSize="15" VerticalAlignment="Center"  Foreground="#aefe14"/>
+                                    <Button  Click="LogoutButton_Click" Background="Transparent" Padding="5" BorderThickness="0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="pack://application:,,,/Images/icons8-sortie-48.png" Width="20"></Image>
+                                            <TextBlock Text="Yeziha" FontWeight="Bold" FontSize="15" VerticalAlignment="Center"  Foreground="#aefe14"/>
 
-                                    </StackPanel>
-                                </Button>
-                            </Border>
+                                        </StackPanel>
+                                    </Button>
+                                </Border>
                                 <Border CornerRadius="15" Background="#aefe14" BorderBrush="Transparent" BorderThickness="0" Margin="5">
                                     <Button Padding="5" Content="Le Mezelna" Click="CancelButton_Click" FontWeight="Bold" Background="Transparent" Foreground="Black" BorderThickness="0" FontSize="12"  />
                                 </Border>
                             </StackPanel>
-            </StackPanel>
+                        </StackPanel>
                     </Border>
                 </Popup>
             </StackPanel>
-
         </Grid>
 
         <!-- Sidebar -->
@@ -254,15 +260,10 @@
 
 
                 <!-- Additional Sidebar Buttons -->
+                <Border CornerRadius="30" Background="#f0f2f5" BorderBrush="Black" BorderThickness="0" Opacity="0.8">
+                    <Grid>
 
-                <Grid>
-                    <!-- User Selection Dropdown -->
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
 
-                    <Border x:Name="ChatPanel" CornerRadius="30" Background="#f0f2f5" BorderBrush="Black" BorderThickness="0" Grid.Row="1" Grid.Column="1" Margin="10">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
@@ -280,42 +281,58 @@
           Checked="ToggleVisibilityCheckBox_Checked"
           Unchecked="ToggleVisibilityCheckBox_Unchecked"
           Visibility="Collapsed"/>
-                            <ItemsControl x:Name="UserList" 
-              ItemsSource="{Binding Users}" 
-              HorizontalAlignment="Left" 
-              VerticalAlignment="Top" 
-              Margin="10">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" >
+                                <!-- Left Scroll Button -->
+                                <Button Content="◀" Width="30" Height="50" Click="ScrollLeft_Click" BorderBrush="{x:Null}" Background="Transparent" VerticalAlignment="Center" />
 
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Vertical" Margin="5" MouseLeftButtonUp="UserItem_Click">
-                                            <Grid Width="50" Height="50" VerticalAlignment="Center">
-                                                <Ellipse Fill="Black" Stroke="Transparent" Width="50" Height="50" />
-                                                <TextBlock FontSize="16" FontWeight="Bold" Foreground="White"
-                               HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Run>
-                            <Run.Text>
-                                <MultiBinding Converter="{StaticResource FirstLetterMultiConverter}">
-                                    <Binding Path="FirstName" />
-                                    <Binding Path="LastName" />
-                                </MultiBinding>
-                            </Run.Text>
-                        </Run>
-                                                </TextBlock>
-                                            </Grid>
-                                            <TextBlock Text="{Binding Username}" FontWeight="Bold" Foreground="Black"
-                           Margin="0,5,0,0" HorizontalAlignment="Center"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                                <!-- Users Display ItemsControl -->
+                                <ItemsControl x:Name="UserList"
+                  ItemsSource="{Binding}"
+                  >
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <!-- Horizontal StackPanel to align items horizontally -->
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
 
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Vertical" Margin="5" MouseLeftButtonUp="UserItem_Click">
+                                                <Grid Width="50" Height="50" VerticalAlignment="Center">
+                                                    <Ellipse Fill="Black" Stroke="Transparent" Width="50" Height="50" />
+                                                    <TextBlock FontSize="16" FontWeight="Bold" Foreground="White"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Run>
+                                <Run.Text>
+                                    <MultiBinding Converter="{StaticResource FirstLetterMultiConverter}">
+                                        <Binding Path="FirstName" />
+                                        <Binding Path="LastName" />
+                                    </MultiBinding>
+                                </Run.Text>
+                            </Run>
+                                                    </TextBlock>
+                                                </Grid>
+                                                <TextBlock Text="{Binding Username}" FontWeight="Bold" Foreground="Black"
+                               Margin="0,5,0,0" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
 
+                                    <ItemsControl.Template>
+                                        <ControlTemplate TargetType="ItemsControl">
+                                            <Border HorizontalAlignment="Center">
+                                                <!-- Scrolling ContentPresenter for smooth horizontal scrolling -->
+                                                <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+                                                    <ItemsPresenter />
+                                                </ScrollViewer>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+                                </ItemsControl>
+                                <Button Click="ScrollRight_Click" Content="▶" Width="30" Height="50" BorderBrush="{x:Null}" Background="Transparent" VerticalAlignment="Center"></Button>
+
+                            </StackPanel>
 
 
                             <!-- Collapsible Chat History ListBox -->
@@ -340,20 +357,19 @@
                                     <TextBox x:Name="ChatInputTextBox" Width="200" Height="40" VerticalAlignment="Center" Padding="10" Background="Transparent" BorderBrush="Transparent"/>
                                 </Border>
                                 <Border CornerRadius="40" Background="Black" Margin="0,0,0,0" BorderThickness="0" BorderBrush="Transparent">
-                                    
-                                        <Button  Click="SendMessageButton_Click" Width="40" Height="40" VerticalAlignment="Center" BorderThickness="0" Background="Transparent">
+                                    <Button  Click="SendMessageButton_Click" Width="40" Height="40" VerticalAlignment="Center" BorderThickness="0" Background="Transparent">
                                         <StackPanel Background="Transparent">
                                             <Image Source="pack://application:,,,/Images/icons8-send-30.png" Margin="5"/>
                                         </StackPanel>
                                     </Button>
-                                   
                                 </Border>
                             </StackPanel>
                         </Grid>
-                    </Border>
 
-                    <!-- Chat Panel -->
-                </Grid>
+
+                        <!-- Chat Panel -->
+                    </Grid>
+                </Border>
 
             </StackPanel>
         </Border>
