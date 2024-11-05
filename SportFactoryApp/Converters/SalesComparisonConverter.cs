@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-
-namespace SportFactoryApp.Converters
+﻿namespace SportFactoryApp.Converters
 {
     using System;
     using System.Globalization;
@@ -21,12 +13,20 @@ namespace SportFactoryApp.Converters
                 // Check for previous and current counts
                 if (values[0] is int previousCount && values[1] is int currentCount)
                 {
-                    return $" Current Week:{currentCount} Compared To ({previousCount} in Previous Range)";
+                    double percentageChange = (previousCount != 0)
+                        ? ((currentCount / previousCount) - 1) * 100
+                        : 0; // Avoid division by zero
+                    return $"{percentageChange:F2}%";
                 }
-                // Check for total sales comparison
+
+                // Check for total sales comparison with percentage change
                 if (values[0] is double previousSales && values[1] is double currentSales)
                 {
-                    return $" Current Week:{currentSales:F0}DT Compared To ({previousSales:F0}DT in Previous Range) ";
+                    double percentageChange = (previousSales != 0)
+                        ? ((currentSales / previousSales) - 1) * 100
+                        : 0; // Avoid division by zero
+
+                    return $"{percentageChange:F2}%";
                 }
             }
             return string.Empty; // Return an empty string if values are not valid

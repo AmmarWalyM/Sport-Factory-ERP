@@ -344,6 +344,7 @@ C:\Users\Rayen\OneDrive\Desktop\New folder (2)\Sport-Factory-ERP-hedi\SportFacto
 C:\Users\Rayen\OneDrive\Desktop\New folder (2)\Sport-Factory-ERP-hedi\SportFactoryApp\obj\Release\net6.0-windows\SportFactoryApp.AssemblyInfoInputs.cache
 C:\Users\Rayen\OneDrive\Desktop\New folder (2)\Sport-Factory-ERP-hedi\SportFactoryApp\obj\Release\net6.0-windows\SportFactoryApp.AssemblyInfo.cs
 C:\Users\Rayen\OneDrive\Desktop\New folder (2)\Sport-Factory-ERP-hedi\SportFactoryApp\obj\Release\net6.0-windows\SportFactoryApp.csproj.CoreCompileInputs.cache
+C:\Users\Rayen\OneDrive\Desktop\New folder (2)\Sport-Factory-ERP-hedi\SportFactoryApp\obj\Release\net6.0-windows\SportFactoryApp.sourcelink.json
 C:\Users\Rayen\OneDrive\Desktop\New folder (2)\Sport-Factory-ERP-hedi\SportFactoryApp\obj\Release\net6.0-windows\SportFac.9113DB5C.Up2Date
 C:\Users\Rayen\OneDrive\Desktop\New folder (2)\Sport-Factory-ERP-hedi\SportFactoryApp\obj\Release\net6.0-windows\SportFactoryApp.dll
 C:\Users\Rayen\OneDrive\Desktop\New folder (2)\Sport-Factory-ERP-hedi\SportFactoryApp\obj\Release\net6.0-windows\refint\SportFactoryApp.dll

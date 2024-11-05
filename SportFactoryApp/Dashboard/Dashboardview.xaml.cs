@@ -302,7 +302,8 @@ namespace SportFactoryApp.Dashboard
         {
             GradientStops = new GradientStopCollection
             {
-                new GradientStop(Color.FromRgb(40, 137, 252), 0),
+             
+                new GradientStop(Color.FromRgb(173, 222, 52), 0),
                 new GradientStop(Color.FromRgb(255, 255, 255), 1)
             }
         }
@@ -317,7 +318,7 @@ namespace SportFactoryApp.Dashboard
         {
             GradientStops = new GradientStopCollection
             {
-                new GradientStop(Color.FromRgb(255, 111, 77), 0),
+                  new GradientStop(Color.FromRgb(27, 73, 60), 0),
                 new GradientStop(Color.FromRgb(255, 255, 255), 1)
             }
         }
@@ -354,7 +355,7 @@ var lineSeries1 = new LineSeries
         GradientStops = new GradientStopCollection
         {
             new GradientStop(Colors.White, 0.06),
-            new GradientStop(Color.FromRgb(40, 137, 252), 0.5),
+            new GradientStop(Color.FromRgb(248, 163, 63), 0.5),
             new GradientStop(Colors.White, 0.93)
         }
     }
@@ -420,16 +421,26 @@ LineChartSeries = new SeriesCollection { lineSeries1};
                 .Select(g => new { Type = g.Key, Count = g.Count() })
                 .ToList();
             var colors = new List<SolidColorBrush>
-            {
-                new SolidColorBrush(Color.FromRgb(255, 99, 132)), // Color 1
-                                                                  // new SolidColorBrush(Color.FromRgb(54, 162, 235))
-            };
+{
+    new SolidColorBrush(Color.FromRgb(57, 121, 104)), // First color
+    new SolidColorBrush(Color.FromRgb(248, 163, 63))  // Second color
+};
 
+            // Clear any existing series to avoid duplicates
             PieChart2.Series = new SeriesCollection();
+
             int colorIndex = 0;
             foreach (var type in types)
             {
-                PieChart2.Series.Add(new PieSeries { Title = type.Type, Values = new ChartValues<int> { type.Count } });
+                // Create a new PieSeries with the specific color from the colors list
+                PieChart2.Series.Add(new PieSeries
+                {
+                    Title = type.Type,
+                    Values = new ChartValues<int> { type.Count },
+                    DataLabels = true,
+                    Fill = colors[colorIndex % colors.Count]  // Apply color based on the index
+                });
+                colorIndex++;
             }
         }
 
@@ -543,8 +554,12 @@ LineChartSeries = new SeriesCollection { lineSeries1};
              .Include(s => s.Membership)
              .ToList();
 
+            var FilteredSessionss = sessions
+               .Where(m => m.SessionDate >= DateTime.FromOADate(LowerBound) &&
+                           m.SessionDate <= DateTime.FromOADate(UpperBound))
+               .ToList();
             // Assign the sessions to the FilteredSessions collection
-            FilteredSessions = new ObservableCollection<Session>(sessions);
+            FilteredSessions = new ObservableCollection<Session>(FilteredSessionss);
 
             FilteredMembers = new ObservableCollection<Membership>(filteredMemberships);
         }

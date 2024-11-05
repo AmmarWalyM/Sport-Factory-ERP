@@ -29,8 +29,8 @@
             <Border Width="50" Height="50" CornerRadius="10" Margin="0 0 10 0">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Color="#7CB8FF" Offset="0" />
-                        <GradientStop Color="#B2D3FE" Offset="1" />
+                        <GradientStop Color="#275347" Offset="0" />
+                        <GradientStop Color="#ADDE34" Offset="1" />
                     </LinearGradientBrush>
                 </Border.Background>
                 <Image Source="{Binding Gender, Converter={StaticResource GenderToImageConverter}}" Width="38" Height="38" />
